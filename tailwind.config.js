@@ -7,10 +7,11 @@ module.exports = {
   ],
   theme: {
     extend: {
+      colors: {
+        'railway_blue': '#0162B1',
+      },
       backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        'login': 'url(/WaveLine.svg)',
       },
     },
   },
