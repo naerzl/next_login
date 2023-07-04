@@ -1,7 +1,7 @@
 'use client'
 
 import {EnvelopeIcon} from '@heroicons/react/24/solid'
-import usePassword from './@compoments/usePassword'
+import usePassword from './components/usePassword'
 
 export default function Login() {
     const logo = 'static/images/logo.png'
