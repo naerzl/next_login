@@ -1,5 +1,3 @@
-import { OauthObj } from "src/class/oath"
-import { LrsOaurhRequestData } from "src/types/authorization"
 /**
  *
  * @param queryString 字符串
@@ -18,16 +16,6 @@ export function parseQueryString(queryString: string) {
 }
 
 /**
- * @description:
- * @param {type}
- * @return:查询字符串
- */
-export function GetAuthorizationHeader(request_data: LrsOaurhRequestData<any>) {
-  const obj = OauthObj.oauth.authorize(request_data) as any
-  return new URLSearchParams(obj).toString()
-}
-
-/**
  * @description:解析cookie转对象
  * @param {type}
  * @return:对象
@@ -42,13 +30,4 @@ export function parseCookieString(queryString: string) {
     params[key] = value
   }
   return params
-}
-
-/**
- * @description:对象转查询字符串
- * @param {type}
- * @return:查询字符串
- */
-export function changeSearchParams(obj: any) {
-  return new URLSearchParams(obj).toString()
 }

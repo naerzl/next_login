@@ -1,10 +1,10 @@
 "use server"
 import { NextResponse } from "next/server"
 import { NextRequest } from "next/server"
-import { OauthObj } from "./class/oath"
+import { OauthObj } from "./libs/init_oauth"
 export async function middleware(request: NextRequest) {
   const request_data = {
-    url: `${process.env.NEXT_PUBLIC_OAUTH_BASE_URL}${process.env.NEXT_PUBLIC_OAUTH_INITIATE}` as string,
+    url: `${process.env.NEXT_PUBLIC_OAUTH_INITIATE}` as string,
     method: "get",
     data: { oauth_callback: process.env.NEXT_PUBLIC_OAUTH_CALLBACK_URL },
   }

@@ -1,32 +1,31 @@
 "use client"
 import React, { useCallback, useEffect } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { OauthObj } from "src/class/oath"
-import { parseQueryString } from "@/libs/methods"
+import { OauthObj } from "@/libs/init_oauth"
+import { LrsOaurhRequestData } from "src/types/authorization"
 function Auth() {
   const router = useRouter()
-  const request_data = {
-    url: `${process.env.NEXT_PUBLIC_OAUTH_BASE_URL}${process.env.NEXT_PUBLIC_OAUTH_TOKEN}`,
+  const searchParams = useSearchParams()
+  const request_data: LrsOaurhRequestData = {
+    url: `${process.env.NEXT_PUBLIC_OAUTH_TOKEN}`,
     method: "get",
-    data: {},
+    data: {
+      oauth_token: searchParams.get("oauth_token") as string,
+      oauth_verifier: searchParams.get("oauth_verifier") as string,
+    },
   }
-  const query = useSearchParams()
   const request = useCallback(() => {
-    const url = `${query}`
-    const { oauth_token, oauth_verifier } = parseQueryString(url)
     OauthObj.lrsGetAccessToken({
       request_data,
-      oauth_token,
-      oauth_verifier,
       router,
       url: request_data.url,
     })
-  }, [query])
+  }, [])
   useEffect(() => {
     request()
   }, [])
 
-  return <div style={{ display: "none" }}>auth</div>
+  return <></>
 }
 
 export default Auth

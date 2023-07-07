@@ -1,6 +1,5 @@
 "use client"
 import { getTokenWithCookie } from "@/libs/cookies"
-import { parseQueryString } from "@/libs/methods"
 import { useRouter, useSearchParams } from "next/navigation"
 import React from "react"
 
@@ -12,13 +11,9 @@ export default function Home() {
   const searchParams = useSearchParams()
   const router = useRouter()
   React.useEffect(() => {
-    const url = `${searchParams}`
-    const obj = parseQueryString(url)
-    setOauthToken(obj.oauth_token)
-    setObjId(obj.obj_id)
-    setAction(
-      `${process.env.NEXT_PUBLIC_OAUTH_BASE_URL}${process.env.NEXT_PUBLIC_OAUTH_AUTHORIZE}?${url}`,
-    )
+    setOauthToken(searchParams.get("oauth_token") as string)
+    setObjId(searchParams.get("obj_id") as string)
+    setAction(`${process.env.NEXT_PUBLIC_OAUTH_AUTHORIZE}?${searchParams.toString()}`)
   }, [searchParams])
 
   React.useEffect(() => {
