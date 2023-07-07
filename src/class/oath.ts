@@ -2,8 +2,10 @@ import { LrsOauthInitOptions } from "./oath.d"
 import OAuth from "oauth-1.0a"
 import CryptoJS from "crypto-js"
 import { LrsOauthInitiate } from "src/types/authorization"
-import { setTokenWithCookie } from "@/libs/cookies"
+import { setCookie } from "@/libs/cookies"
 import { apiGetOauthWithFetcher } from "src/app/api/route"
+
+export const ACCESSTOKEN = "access_token"
 class LrsOauthClient {
   oauth: OAuth
   constructor(consumer: LrsOauthInitOptions) {
@@ -41,7 +43,7 @@ class LrsOauthClient {
       } as any).toString()}`,
     ).then((res) => {
       // 获取到的token存在cookie
-      setTokenWithCookie(res)
+      setCookie(ACCESSTOKEN, res)
       const _next = new URLSearchParams(document.cookie.replaceAll("; ", "&")).get("_next")
       obj.router.push(`${_next || "/login"}`)
     })

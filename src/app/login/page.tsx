@@ -1,9 +1,9 @@
-'use client'
-import { EnvelopeIcon } from '@heroicons/react/24/solid'
-import usePassword from './components/usePassword'
-import React from 'react'
+"use client"
+import { EnvelopeIcon } from "@heroicons/react/24/solid"
+import usePassword from "./components/usePassword"
+import React from "react"
 export default function Login() {
-  const logo = 'static/images/logo.png'
+  const logo = "static/images/logo.png"
   return (
     <main className="select-none flex min-h-screen bg-gray-100 bg-no-repeat bg-cover items-center justify-between">
       <div className="lg:flex container justify-center min-h-screen items-center bg-white hidden sm:hidden md:hidden">
@@ -31,9 +31,7 @@ export default function Login() {
               <div className="w-8">
                 <EnvelopeIcon className="h-5 w-5 text-railway_blue mt-0.5 mx-1" />
               </div>
-              <span className="pl-1 mt-0.5 text-slate-800 text-xs">
-                使用验证码继续
-              </span>
+              <span className="pl-1 mt-0.5 text-slate-800 text-xs">使用验证码继续</span>
             </div>
             <div className="flex cursor-pointer mt-2 container flex-row border px-2 py-2 rounded-md">
               <div className="w-8">
@@ -48,9 +46,7 @@ export default function Login() {
                   ></path>
                 </svg>
               </div>
-              <span className="pl-1 mt-0.5 text-slate-800 text-xs">
-                使用微信继续
-              </span>
+              <span className="pl-1 mt-0.5 text-slate-800 text-xs">使用微信继续</span>
             </div>
           </div>
         </div>

@@ -1,16 +1,16 @@
-export type LrsOathRequestData_Data = {
+export interface LrsOathRequestData_Data {
   oauth_callback?: string
   oauth_verifier?: string
   oauth_token?: string
 }
 
-export type LrsOaurhRequestData = {
+export interface LrsOaurhRequestData {
   url: string
   method: string
   data: LrsOathRequestData_Data
 }
 
-export type LrsOauthInitiate = {
+export interface LrsOauthInitiate {
   url: string
   request_data: LrsOaurhRequestData
   router?: AppRouterInstance

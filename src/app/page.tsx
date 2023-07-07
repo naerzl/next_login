@@ -1,13 +1,13 @@
 "use client"
-import { getTokenWithCookie } from "@/libs/cookies"
+import { getCookie } from "@/libs/cookies"
 import { useRouter, useSearchParams } from "next/navigation"
 import React from "react"
-
+import { ACCESSTOKEN } from "src/class/oath"
 export default function Home() {
   const [oauthToken, setOauthToken] = React.useState("")
   const [action, setAction] = React.useState("")
   const [objId, setObjId] = React.useState("")
-  const DButton = React.useRef<null | HTMLButtonElement>(null)
+  const DButton = React.useRef<HTMLButtonElement>(null)
   const searchParams = useSearchParams()
   const router = useRouter()
   React.useEffect(() => {
@@ -22,7 +22,7 @@ export default function Home() {
   }, [oauthToken, action, objId])
 
   // 判断如果有token退回上一级路由
-  if (getTokenWithCookie()) {
+  if (getCookie(ACCESSTOKEN)) {
     router.back()
     return <></>
   } else {

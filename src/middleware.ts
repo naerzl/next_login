@@ -2,7 +2,9 @@
 import { NextResponse } from "next/server"
 import { NextRequest } from "next/server"
 import { OauthObj } from "./libs/init_oauth"
-export async function middleware(request: NextRequest) {
+
+// 初始化Oauth
+async function oAuthInitiate(request: NextRequest) {
   const request_data = {
     url: `${process.env.NEXT_PUBLIC_OAUTH_INITIATE}` as string,
     method: "get",
@@ -20,6 +22,11 @@ export async function middleware(request: NextRequest) {
     re.cookies.set("_next", request.nextUrl.pathname)
     return re
   }
+}
+
+export async function middleware(request: NextRequest) {
+  // 初始化Oauth
+  return oAuthInitiate(request)
 }
 
 export const config = {
