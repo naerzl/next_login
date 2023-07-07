@@ -30,6 +30,8 @@
   },
   "devDependencies": {
     "@types/crypto-js": "^4.1.1",
-    "@types/js-cookie": "^3.0.3"
+    "@types/js-cookie": "^3.0.3",
+    "eslint-config-prettier": "^8.8.0",
+    "prettier": "^3.0.0"
   }
 }
