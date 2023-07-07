@@ -2,7 +2,6 @@ import { LrsOauthInitOptions } from "./oath.d"
 import OAuth from "oauth-1.0a"
 import CryptoJS from "crypto-js"
 import { LrsOauthInitiate } from "src/types/authorization"
-import { parseCookieString } from "@/libs/methods"
 import { setTokenWithCookie } from "@/libs/cookies"
 import { apiGetOauthWithFetcher } from "src/app/api/route"
 class LrsOauthClient {
@@ -17,9 +16,10 @@ class LrsOauthClient {
     })
   }
 
-  // 签名并初始化oauth_token
+  // 第一步 签名并初始化oauth_token
   async lrsOauthInitiate(obj: LrsOauthInitiate) {
     const signature = this.oauth.authorize(obj.request_data)
+    // 转码签名里面的特殊字符
     signature.oauth_signature = encodeURIComponent(signature.oauth_signature)
     const data = await apiGetOauthWithFetcher(
       obj.url + `?${new URLSearchParams(signature as any).toString()}`,
@@ -31,6 +31,7 @@ class LrsOauthClient {
     return "/"
   }
 
+  // 第三步 通过授权后的oauth_token换取access_token
   lrsGetAccessToken(obj: LrsOauthInitiate) {
     const oAuthObj = this.oauth.authorize(obj.request_data)
     apiGetOauthWithFetcher(
@@ -39,10 +40,10 @@ class LrsOauthClient {
         ...oAuthObj,
       } as any).toString()}`,
     ).then((res) => {
+      // 获取到的token存在cookie
       setTokenWithCookie(res)
-      const cookieObj = parseCookieString(document.cookie)
-      const next = cookieObj._next || "/login"
-      obj.router.push(`${next}`)
+      const _next = new URLSearchParams(document.cookie.replaceAll("; ", "&")).get("_next")
+      obj.router.push(`${_next || "/login"}`)
     })
   }
 }

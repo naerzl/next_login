@@ -17,9 +17,11 @@ export default function Home() {
   }, [searchParams])
 
   React.useEffect(() => {
+    // 第二步 判断所有状态都有值之后再模拟点击
     oauthToken && action && objId && DButton.current!.click()
   }, [oauthToken, action, objId])
 
+  // 判断如果有token退回上一级路由
   if (getTokenWithCookie()) {
     router.back()
     return <></>

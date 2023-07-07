@@ -6,6 +6,7 @@ import { LrsOaurhRequestData } from "src/types/authorization"
 function Auth() {
   const router = useRouter()
   const searchParams = useSearchParams()
+  // 需要签名的对象
   const request_data: LrsOaurhRequestData = {
     url: `${process.env.NEXT_PUBLIC_OAUTH_TOKEN}`,
     method: "get",
@@ -15,6 +16,7 @@ function Auth() {
     },
   }
   const request = useCallback(() => {
+    // oauth签名的第三步
     OauthObj.lrsGetAccessToken({
       request_data,
       router,
