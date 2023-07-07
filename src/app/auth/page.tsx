@@ -3,6 +3,8 @@ import React, { useCallback, useEffect } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { OauthObj } from "@/libs/init_oauth"
 import { LrsOaurhRequestData } from "src/types/authorization"
+import { ACCESSTOKEN } from "src/class/oath"
+import { getCookie, setCookie } from "@/libs/cookies"
 function Auth() {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -15,13 +17,15 @@ function Auth() {
       oauth_verifier: searchParams.get("oauth_verifier") as string,
     },
   }
-  const request = useCallback(() => {
+  const request = useCallback(async () => {
     // oauth签名的第三步
-    OauthObj.lrsGetAccessToken({
+    const res = await OauthObj.lrsGetAccessToken({
       request_data,
       router,
       url: request_data.url,
     })
+    setCookie(ACCESSTOKEN, res)
+    router.push(getCookie("_next") || "/login")
   }, [])
   useEffect(() => {
     request()

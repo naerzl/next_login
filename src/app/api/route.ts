@@ -8,10 +8,3 @@ export async function GetStatements() {
 
   return NextResponse.json({ data })
 }
-
-export async function apiGetOauthWithFetcher(
-  input: RequestInfo | URL,
-  init?: RequestInit | undefined,
-) {
-  return fetch(input, init).then((res) => res.text())
-}

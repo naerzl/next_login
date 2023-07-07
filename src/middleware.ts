@@ -2,17 +2,18 @@
 import { NextResponse } from "next/server"
 import { NextRequest } from "next/server"
 import { OauthObj } from "./libs/init_oauth"
+import { ACCESSTOKEN } from "./class/oath"
 
 // 初始化Oauth
 async function oAuthInitiate(request: NextRequest) {
-  const request_data = {
-    url: `${process.env.NEXT_PUBLIC_OAUTH_INITIATE}` as string,
-    method: "get",
-    data: { oauth_callback: process.env.NEXT_PUBLIC_OAUTH_CALLBACK_URL },
-  }
-  let _token = request.cookies.get("access_token")
+  let _token = request.cookies.get(ACCESSTOKEN)
   if (request.nextUrl.pathname !== "/") {
     if (_token) return
+    const request_data = {
+      url: `${process.env.NEXT_PUBLIC_OAUTH_INITIATE}` as string,
+      method: "get",
+      data: { oauth_callback: process.env.NEXT_PUBLIC_OAUTH_CALLBACK_URL },
+    }
     const str = await OauthObj.lrsOauthInitiate({
       request_data,
       url: request_data.url,
