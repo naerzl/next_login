@@ -13,6 +13,9 @@ module.exports = {
       backgroundImage: {
         'login': 'url(/WaveLine.svg)',
       },
+      spacing: {
+        '500': '500px'
+      }
     },
   },
   plugins: [],
