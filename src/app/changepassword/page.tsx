@@ -1,7 +1,8 @@
 "use client"
 import React from "react"
 import PassWord from "./components/PassWord"
-export default function Login() {
+
+function ChangePassword() {
   return (
     <main className="flex h-screen min-h-[700px]">
       <div className="flex-1 bg-gray-400"></div>
@@ -13,3 +14,5 @@ export default function Login() {
     </main>
   )
 }
+
+export default ChangePassword

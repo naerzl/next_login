@@ -20,7 +20,7 @@ async function oAuthInitiate(request: NextRequest) {
       _next: request.nextUrl.pathname,
     })
     const re = NextResponse.redirect(new URL(str, request.url))
-    re.cookies.set("_next", request.nextUrl.pathname)
+    re.cookies.set("_next", request.nextUrl.pathname + request.nextUrl.search)
     return re
   }
 }

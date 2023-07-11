@@ -1,9 +1,9 @@
 "use client"
 import { Row, Col, Form, Input, Button } from "antd"
-import { ToolOutlined, UserOutlined } from "@ant-design/icons"
+import { ToolOutlined, UserOutlined, LockOutlined } from "@ant-design/icons"
 import React from "react"
 import useCountDown from "@/hooks/useCountDown"
-import useDebounce from "@/hooks/useDebounce"
+import { useDebounceFn } from "ahooks"
 
 const rules = {
   phone: [
@@ -13,50 +13,46 @@ const rules = {
       message: "请输入合法的手机号",
     },
   ],
-  code: [{ required: true, message: "验证码" }],
+  code: [{ required: true, message: "请输入验证码" }],
+  checkPassword: [
+    { required: true, message: "请输入密码" },
+    {
+      pattern: /^(?![\d]+$)(?![a-z]+$)(?![A-Z]+$)(?![!#$%^&*]+$)[\da-zA-z!#$%^&*]{6,8}$/,
+      message: "数字、大写字母、小写字母以及特殊符号组成的6-8位(涵盖2项即可)",
+    },
+  ],
 }
 
 export default function UsePhoneCode() {
   const { count, start } = useCountDown(60, () => {})
-  const [phoneCodeData, setPhoneCodeData] = React.useState({
-    phone: "",
-    code: "",
-  })
 
   //   提交
-  const { run: onFinish } = useDebounce((values: any) => {
-    console.log(values)
-  })
-  //   处理input value改变
-  const handleChangeInput = (type: string, e: any) => {
-    setPhoneCodeData((pre) => ({ ...pre, [type]: e.target.value.replace(/[^\d]/g, "") }))
-  }
+  const { run: onFinish } = useDebounceFn(
+    (values: any) => {
+      console.log(values)
+    },
+    {
+      wait: 500,
+    },
+  )
+
   //   点击发送验证码倒计时
-  const { run: handleClickTime } = useDebounce(() => {
-    start()
-  })
+  const { run: handleClickTime } = useDebounceFn(
+    () => {
+      start()
+    },
+    { wait: 500 },
+  )
   return (
     <div>
       <Form onFinish={onFinish}>
         <Form.Item name="phone" rules={rules.phone}>
-          <Input
-            className="h-40"
-            prefix={<UserOutlined />}
-            placeholder="请输入手机号"
-            value={phoneCodeData.phone}
-            onChange={(e: any) => handleChangeInput("phone", e)}
-          />
+          <Input className="h-40" prefix={<UserOutlined />} placeholder="请输入手机号" />
         </Form.Item>
         <Form.Item name="code" rules={rules.code}>
           <Row>
             <Col span={17}>
-              <Input
-                className="h-40"
-                prefix={<ToolOutlined />}
-                placeholder="请输入验证码"
-                value={phoneCodeData.code}
-                onChange={(e: any) => handleChangeInput("code", e)}
-              />
+              <Input className="h-40" prefix={<ToolOutlined />} placeholder="请输入验证码" />
             </Col>
             <Col span={6} offset={1}>
               <Button
@@ -69,13 +65,19 @@ export default function UsePhoneCode() {
             </Col>
           </Row>
         </Form.Item>
+        <Form.Item name="password">
+          <Input.Password className="h-40" prefix={<LockOutlined />} placeholder="请输入密码" />
+        </Form.Item>
+        <Form.Item name="checkPassword" rules={rules.checkPassword}>
+          <Input.Password className="h-40" prefix={<LockOutlined />} placeholder="请再次输入密码" />
+        </Form.Item>
         <Form.Item>
           <Button
             className="bg-railway_blue w-full h-40 fill_Btn"
             type="primary"
             htmlType="submit"
             disabled={count !== 60}>
-            Login
+            Edit
           </Button>
         </Form.Item>
       </Form>
