@@ -16,17 +16,16 @@ const rules = {
   code: [{ required: true, message: "验证码" }],
 }
 
+const SECONDS = 60
 export default function UsePhoneCode() {
-  const { count, start } = useCountDown(60, () => {})
+  const { count, start } = useCountDown(SECONDS, () => {})
   const [phoneCodeData, setPhoneCodeData] = React.useState({
     phone: "",
     code: "",
   })
 
   //   提交
-  const { run: onFinish } = useDebounce((values: any) => {
-    console.log(values)
-  })
+  const { run: onFinish } = useDebounce((values: any) => {})
   //   处理input value改变
   const handleChangeInput = (type: string, e: any) => {
     setPhoneCodeData((pre) => ({ ...pre, [type]: e.target.value.replace(/[^\d]/g, "") }))
@@ -40,7 +39,7 @@ export default function UsePhoneCode() {
       <Form onFinish={onFinish}>
         <Form.Item name="phone" rules={rules.phone}>
           <Input
-            className="h-40"
+            className="h-10"
             prefix={<UserOutlined />}
             placeholder="请输入手机号"
             value={phoneCodeData.phone}
@@ -51,7 +50,7 @@ export default function UsePhoneCode() {
           <Row>
             <Col span={17}>
               <Input
-                className="h-40"
+                className="h-10"
                 prefix={<ToolOutlined />}
                 placeholder="请输入验证码"
                 value={phoneCodeData.code}
@@ -63,18 +62,18 @@ export default function UsePhoneCode() {
                 className="w-full h-full plain_Btn"
                 color="#0162B1"
                 onClick={handleClickTime}
-                disabled={count !== 60}>
-                {count === 60 ? "发送验证码" : count}
+                disabled={count !== SECONDS}>
+                {count === SECONDS ? "发送验证码" : count}
               </Button>
             </Col>
           </Row>
         </Form.Item>
         <Form.Item>
           <Button
-            className="bg-railway_blue w-full h-40 fill_Btn"
+            className="bg-railway_blue w-full h-10 fill_Btn"
             type="primary"
             htmlType="submit"
-            disabled={count !== 60}>
+            disabled={count !== SECONDS}>
             Login
           </Button>
         </Form.Item>

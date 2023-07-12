@@ -26,16 +26,16 @@ function PassWord() {
   const twitter = "/static/images/login/twitter.png"
 
   return (
-    <div className="center_postion w-full px-80 py-24" style={{ minHeight: "644px" }}>
-      <h3 className="w-150  mx-auto font-bold" style={{ height: "35px", fontSize: "35px" }}>
+    <div className="center_postion w-full px-20 py-" style={{ minHeight: "40.25rem" }}>
+      <h3 className="w-150  mx-auto font-bold h-9 text-4xl">
         <img className="inline-block" src={logo} alt="logo" width={35}></img>
         arion
       </h3>
-      <div className="my-40 text-center text-20" style={{ color: "#8697A8" }}>
+      <div className="my-10 text-center text-xl text-railway_gray">
         Please login to your account.
       </div>
       <Tabs items={tabsItems} defaultActiveKey="1" />
-      <div className="border-t-2 my-40 relative">
+      <div className="border-t-2 my-10 relative">
         <span className="text-center text-gray-400 text-sm bg-white w-8 h-6 absolute inset-x-0 -top-3 left-1/2 -translate-x-2/4">
           OR
         </span>

@@ -14,21 +14,19 @@ const rules = {
 }
 export default function UsePassword() {
   const onFinish = (value: any) => {
-    reqChangePasswordWidthPwd(value).then((res) => {
-      console.log(res)
-    })
+    reqChangePasswordWidthPwd(value).then((res) => {})
   }
 
   return (
     <>
       <Form onFinish={onFinish}>
         <Form.Item name="password">
-          <Input.Password className="h-40" prefix={<LockOutlined />} placeholder="请输入旧密码" />
+          <Input.Password className="h-10" prefix={<LockOutlined />} placeholder="请输入旧密码" />
         </Form.Item>
         <Form.Item name="checked_password" rules={rules.checkPassword} validateTrigger={["onBlur"]}>
-          <Input.Password className="h-40" prefix={<LockOutlined />} placeholder="请输入新密码" />
+          <Input.Password className="h-10" prefix={<LockOutlined />} placeholder="请输入新密码" />
         </Form.Item>
-        <Button className="bg-railway_blue w-full h-40" type="primary" htmlType="submit">
+        <Button className="bg-railway_blue w-full h-10" type="primary" htmlType="submit">
           Edit
         </Button>
       </Form>

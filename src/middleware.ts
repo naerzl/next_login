@@ -1,4 +1,3 @@
-"use server"
 import { NextResponse } from "next/server"
 import { NextRequest } from "next/server"
 import { OauthObj } from "./libs/init_oauth"

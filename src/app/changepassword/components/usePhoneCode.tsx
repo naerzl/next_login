@@ -23,18 +23,14 @@ const rules = {
   ],
 }
 
+const SECONDS = 60
 export default function UsePhoneCode() {
-  const { count, start } = useCountDown(60, () => {})
+  const { count, start } = useCountDown(SECONDS, () => {})
 
   //   提交
-  const { run: onFinish } = useDebounceFn(
-    (values: any) => {
-      console.log(values)
-    },
-    {
-      wait: 500,
-    },
-  )
+  const { run: onFinish } = useDebounceFn((values: any) => {}, {
+    wait: 500,
+  })
 
   //   点击发送验证码倒计时
   const { run: handleClickTime } = useDebounceFn(
@@ -47,36 +43,36 @@ export default function UsePhoneCode() {
     <div>
       <Form onFinish={onFinish}>
         <Form.Item name="phone" rules={rules.phone}>
-          <Input className="h-40" prefix={<UserOutlined />} placeholder="请输入手机号" />
+          <Input className="h-10" prefix={<UserOutlined />} placeholder="请输入手机号" />
         </Form.Item>
         <Form.Item name="code" rules={rules.code}>
           <Row>
             <Col span={17}>
-              <Input className="h-40" prefix={<ToolOutlined />} placeholder="请输入验证码" />
+              <Input className="h-10" prefix={<ToolOutlined />} placeholder="请输入验证码" />
             </Col>
             <Col span={6} offset={1}>
               <Button
                 className="w-full h-full plain_Btn"
                 color="#0162B1"
                 onClick={handleClickTime}
-                disabled={count !== 60}>
-                {count === 60 ? "发送验证码" : count}
+                disabled={count !== SECONDS}>
+                {count === SECONDS ? "发送验证码" : count}
               </Button>
             </Col>
           </Row>
         </Form.Item>
         <Form.Item name="password">
-          <Input.Password className="h-40" prefix={<LockOutlined />} placeholder="请输入密码" />
+          <Input.Password className="h-10" prefix={<LockOutlined />} placeholder="请输入密码" />
         </Form.Item>
         <Form.Item name="checkPassword" rules={rules.checkPassword}>
-          <Input.Password className="h-40" prefix={<LockOutlined />} placeholder="请再次输入密码" />
+          <Input.Password className="h-10" prefix={<LockOutlined />} placeholder="请再次输入密码" />
         </Form.Item>
         <Form.Item>
           <Button
-            className="bg-railway_blue w-full h-40 fill_Btn"
+            className="bg-railway_blue w-full h-10 fill_Btn"
             type="primary"
             htmlType="submit"
-            disabled={count !== 60}>
+            disabled={count !== SECONDS}>
             Edit
           </Button>
         </Form.Item>

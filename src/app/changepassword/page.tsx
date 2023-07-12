@@ -4,7 +4,7 @@ import PassWord from "./components/PassWord"
 
 function ChangePassword() {
   return (
-    <main className="flex h-screen min-h-[700px]">
+    <main className="flex h-screen min-h-[43.75rem]">
       <div className="flex-1 bg-gray-400"></div>
       <div
         className="h-full justify-center  relative min-w-[600px]"

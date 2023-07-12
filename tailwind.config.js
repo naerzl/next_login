@@ -9,25 +9,16 @@ module.exports = {
     extend: {
       colors: {
         'railway_blue': '#0162B1',
-        'primary': '#4096ff'
+        'primary': '#4096ff',
+        'railway_gray': "#8697A8"
       },
       backgroundImage: {
         'login': 'url(/WaveLine.svg)',
       },
       spacing: {
-        '24': '24px',
-        "40": "40px",
-        "80": "80px",
-        '150': '150px',
-        '500': '500px',
-        '1024': '1024px'
+        '150': '9.375rem',
+        '161': '40.25rem',
       },
-      fontSize: {
-        '20': '20px'
-      },
-      minWidth: {
-        '700': '700px'
-      }
     },
   },
   plugins: [],

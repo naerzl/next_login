@@ -32,7 +32,12 @@ export default function Home() {
           <form action={action} method="post">
             <input type="text" name="authorize_access" value="1" readOnly />
             <input type="text" name="obj_id" value={objId} readOnly />
-            <input type="text" name="description" value={"工程数字化管理系统APP"} readOnly />
+            <input
+              type="text"
+              name="description"
+              value={process.env.NExt_PUBLIC_OAUTH_DESCRIPTION}
+              readOnly
+            />
             <input type="text" name="scopes" value="statements/write" readOnly />
             <input type="text" name="scopes" value="statements/read/mine" readOnly />
             <input type="text" name="oauth_token" value={oauthToken} readOnly />
