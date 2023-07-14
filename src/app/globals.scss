@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --railway_blue: #0162b1;
+}
+
+/*@media (prefers-color-scheme: dark) {*/
+/*  :root {*/
+/*    --foreground-rgb: 255, 255, 255;*/
+/*    --background-start-rgb: 0, 0, 0;*/
+/*    --background-end-rgb: 0, 0, 0;*/
+/*  }*/
+/*}*/
+
+.center_postion {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.plain_Btn {
+  &:hover {
+    border-color: var(--railway_blue) !important;
+    color: var(--railway_blue) !important;
+  }
+  &:disabled {
+    border-color: #d9d9d9 !important;
+    color: #d9d9d9 !important;
+  }
+}
+
+.fill_Btn {
+  &:hover {
+    background-color: var(--railway_blue) !important;
+  }
+  &:disabled {
+    background-color: #3e9ae6;
+    &:hover {
+      background-color: #3e9ae6 !important;
+    }
+  }
+}
+
+.ant-tabs-tab-active {
+  .ant-tabs-tab-btn {
+    color: var(--railway_blue) !important;
+  }
+}
+
+.ant-tabs-ink-bar {
+  background-color: var(--railway_blue) !important;
+}

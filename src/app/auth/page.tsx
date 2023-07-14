@@ -2,9 +2,9 @@
 import React, { useCallback, useEffect } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { OauthObj } from "@/libs/init_oauth"
-import { LrsOaurhRequestData } from "src/types/authorization"
-import { ACCESSTOKEN } from "src/class/oath"
+import { LrsOaurhRequestData } from "@/types/authorization"
 import { getCookie, setCookie } from "@/libs/cookies"
+import { ACCESSTOKEN } from "@zctc/edms-lrs-oauth1.0"
 function Auth() {
   const router = useRouter()
   const searchParams = useSearchParams()
