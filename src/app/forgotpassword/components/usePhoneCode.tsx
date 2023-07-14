@@ -3,29 +3,32 @@ import React from "react"
 import { Button } from "@mui/material"
 import useDebounce from "@/hooks/useDebounce"
 import { useRouter } from "next/navigation"
-import { reqPutModifyPassword } from "../api/route"
+import { reqPutForgotPassword } from "../api/route"
 import PasswordInput from "@/components/PasswordInput"
 import UserNameInput from "@/components/UserNameInput"
-import { ReqModifyPasswordParams } from "../types"
+import { ReqForgotPhoneCodeParams } from "../types"
+import VerifyCodeInput from "./VerifyCodeInput"
 import { REGEXP_PASSWORD } from "@/libs/const"
-export default function UsePassword() {
+export default function UsePhoneCode() {
   const {
     control,
     handleSubmit,
     formState: { errors },
     trigger,
+    getValues,
   } = useForm({
     defaultValues: {
-      raw_password: "",
+      phone: "",
+      code: "",
       password: "",
       checked_password: "",
     },
   })
   const router = useRouter()
 
-  const { run: onSubmit }: { run: SubmitHandler<ReqModifyPasswordParams> } = useDebounce(
-    async (values: ReqModifyPasswordParams) => {
-      reqPutModifyPassword(values).then((res) => {
+  const { run: onSubmit }: { run: SubmitHandler<ReqForgotPhoneCodeParams> } = useDebounce(
+    async (values: ReqForgotPhoneCodeParams) => {
+      reqPutForgotPassword(values).then((res) => {
         if (res.code !== 2000) return
         debugger
         router.back()
@@ -35,11 +38,26 @@ export default function UsePassword() {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Controller
-        name="raw_password"
+        name="phone"
         control={control}
         rules={{ required: true }}
         render={({ field }) => (
-          <PasswordInput field={field} trigger={trigger} errors={errors.raw_password} />
+          <UserNameInput field={field} trigger={trigger} errors={errors.phone} />
+        )}
+      />
+      <Controller
+        rules={{
+          required: true,
+        }}
+        name="code"
+        control={control}
+        render={({ field }) => (
+          <VerifyCodeInput
+            field={field}
+            trigger={trigger}
+            errors={errors.code}
+            getValues={getValues}
+          />
         )}
       />
       <Controller
@@ -56,7 +74,7 @@ export default function UsePassword() {
       <Controller
         rules={{
           required: true,
-          validate: (value, formValues: ReqModifyPasswordParams) => {
+          validate: (value, formValues: ReqForgotPhoneCodeParams) => {
             return value === formValues.password
           },
         }}

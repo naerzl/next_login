@@ -1,6 +1,6 @@
 "use client"
 import React from "react"
-import UsePassword from "./usePassword"
+import UsePhoneCode from "./usePhoneCode"
 
 function PassWord() {
   const logo = "static/images/logo-newe.png"
@@ -18,7 +18,7 @@ function PassWord() {
       <div className="my-10 text-center text-xl text-railway_gray">
         Please login to your account.
       </div>
-      <UsePassword></UsePassword>
+      <UsePhoneCode></UsePhoneCode>
       <div className="border-t-2 my-10 relative">
         <span className="text-center text-gray-400 text-sm bg-white w-8 h-6 absolute inset-x-0 -top-3 left-1/2 -translate-x-2/4">
           OR

@@ -34,3 +34,15 @@ export interface ReqChangePasswordParams {
   password: string
   checked_password: string
 }
+
+export interface ReqLoginPhoneCodeParams {
+  phone: string
+  code: string
+  client_id: string
+  redirect_uri: string
+  response_type: string
+  code_challenge: string
+  code_challenge_method: string
+  state: string
+  scope: string
+}

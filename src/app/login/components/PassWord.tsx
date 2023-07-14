@@ -1,22 +1,6 @@
 "use client"
 import React from "react"
-import UsePhoneCode from "./usePhoneCode"
-import { Tabs } from "antd"
-import type { TabsProps } from "antd"
-import UsePassword from "./usePassword"
-
-const tabsItems: TabsProps["items"] = [
-  {
-    key: "1",
-    label: `密码登录`,
-    children: <UsePassword></UsePassword>,
-  },
-  {
-    key: "2",
-    label: `短信登录`,
-    children: <UsePhoneCode></UsePhoneCode>,
-  },
-]
+import BasicTabs from "./Tabs"
 
 function PassWord() {
   const logo = "static/images/logo-newe.png"
@@ -34,7 +18,7 @@ function PassWord() {
       <div className="my-10 text-center text-xl text-railway_gray">
         Please login to your account.
       </div>
-      <Tabs items={tabsItems} defaultActiveKey="1" />
+      <BasicTabs></BasicTabs>
       <div className="border-t-2 my-10 relative">
         <span className="text-center text-gray-400 text-sm bg-white w-8 h-6 absolute inset-x-0 -top-3 left-1/2 -translate-x-2/4">
           OR

@@ -2,7 +2,7 @@
 import { getCookie } from "@/libs/cookies"
 import { useRouter, useSearchParams } from "next/navigation"
 import React from "react"
-import { ACCESSTOKEN } from "src/class/oath"
+import { ACCESSTOKEN } from "@zctc/edms-lrs-oauth1.0"
 export default function Home() {
   const [oauthToken, setOauthToken] = React.useState("")
   const [action, setAction] = React.useState("")

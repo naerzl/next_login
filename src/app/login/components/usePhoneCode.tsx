@@ -1,83 +1,76 @@
-"use client"
-import { Row, Col, Form, Input, Button } from "antd"
-import { ToolOutlined, UserOutlined } from "@ant-design/icons"
+import { useForm, SubmitHandler, Controller } from "react-hook-form"
 import React from "react"
-import useCountDown from "@/hooks/useCountDown"
+import { Button } from "@mui/material"
 import useDebounce from "@/hooks/useDebounce"
-
-const rules = {
-  phone: [
-    { required: true, message: "请输入手机号" },
-    {
-      pattern: /^1[3456789]\d{9}$/,
-      message: "请输入合法的手机号",
-    },
-  ],
-  code: [{ required: true, message: "验证码" }],
+import { useRouter, useSearchParams } from "next/navigation"
+import { LoginWithPhoneClass } from "@/class"
+import { reqLoginWithPhone } from "../api/route"
+import UserNameInput from "@/components/UserNameInput"
+import VerifyCodeInput from "@/app/login/components/VerifyCodeInput"
+import { REGEXP_PHONE } from "@/libs/const"
+interface IFormInput {
+  phone: string
+  code: string
 }
 
-const SECONDS = 60
 export default function UsePhoneCode() {
-  const { count, start } = useCountDown(SECONDS, () => {})
-  const [phoneCodeData, setPhoneCodeData] = React.useState({
-    phone: "",
-    code: "",
+  const {
+    control,
+    handleSubmit,
+    getValues,
+    trigger,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      phone: "",
+      code: "",
+    },
+  })
+  const router = useRouter()
+  const search = useSearchParams()
+
+  const { run: onSubmit }: { run: SubmitHandler<IFormInput> } = useDebounce((values) => {
+    if (search.has("redirect_uri")) {
+      let searchObj = new LoginWithPhoneClass({ phone: values.phone, code: values.code })
+      search.forEach((value, key) => {
+        // @ts-ignore
+        searchObj[key] = value
+      })
+      reqLoginWithPhone(searchObj).then((res) => {
+        if (res.code !== 2000) return
+        debugger
+        router.push(res.data.location + `&is_first_login=${res.data.is_first_login}`)
+      })
+    }
   })
 
-  //   提交
-  const { run: onFinish } = useDebounce((values: any) => {})
-  //   处理input value改变
-  const handleChangeInput = (type: string, e: any) => {
-    setPhoneCodeData((pre) => ({ ...pre, [type]: e.target.value.replace(/[^\d]/g, "") }))
-  }
-  //   点击发送验证码倒计时
-  const { run: handleClickTime } = useDebounce(() => {
-    start()
-  })
   return (
-    <div>
-      <Form onFinish={onFinish}>
-        <Form.Item name="phone" rules={rules.phone}>
-          <Input
-            className="h-10"
-            prefix={<UserOutlined />}
-            placeholder="请输入手机号"
-            value={phoneCodeData.phone}
-            onChange={(e: any) => handleChangeInput("phone", e)}
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Controller
+        name="phone"
+        control={control}
+        rules={{ required: true, pattern: REGEXP_PHONE }}
+        render={({ field }) => (
+          <UserNameInput field={field} trigger={trigger} errors={errors.phone} />
+        )}
+      />
+      <Controller
+        rules={{ required: true }}
+        name="code"
+        control={control}
+        render={({ field }) => (
+          <VerifyCodeInput
+            field={field}
+            getValues={getValues}
+            trigger={trigger}
+            errors={errors.code}
           />
-        </Form.Item>
-        <Form.Item name="code" rules={rules.code}>
-          <Row>
-            <Col span={17}>
-              <Input
-                className="h-10"
-                prefix={<ToolOutlined />}
-                placeholder="请输入验证码"
-                value={phoneCodeData.code}
-                onChange={(e: any) => handleChangeInput("code", e)}
-              />
-            </Col>
-            <Col span={6} offset={1}>
-              <Button
-                className="w-full h-full plain_Btn"
-                color="#0162B1"
-                onClick={handleClickTime}
-                disabled={count !== SECONDS}>
-                {count === SECONDS ? "发送验证码" : count}
-              </Button>
-            </Col>
-          </Row>
-        </Form.Item>
-        <Form.Item>
-          <Button
-            className="bg-railway_blue w-full h-10 fill_Btn"
-            type="primary"
-            htmlType="submit"
-            disabled={count !== SECONDS}>
-            Login
-          </Button>
-        </Form.Item>
-      </Form>
-    </div>
+        )}
+      />
+
+      <Button variant="contained" type="submit" className="bg-railway_blue h-10" fullWidth>
+        登录
+      </Button>
+    </form>
   )
 }
