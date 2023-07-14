@@ -5,7 +5,6 @@ import useDebounce from "@/hooks/useDebounce"
 import { useRouter } from "next/navigation"
 import { reqPutModifyPassword } from "../api/route"
 import PasswordInput from "@/components/PasswordInput"
-import UserNameInput from "@/components/UserNameInput"
 import { ReqModifyPasswordParams } from "../types"
 import { REGEXP_PASSWORD } from "@/libs/const"
 export default function UsePassword() {
