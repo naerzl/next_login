@@ -53,3 +53,15 @@
 .ant-tabs-ink-bar {
   background-color: var(--railway_blue) !important;
 }
+
+.agreement {
+  p {
+    margin: 4px 0;
+    line-height: 30px;
+  }
+  p:has(strong) {
+    color: #245be2;
+    font-size: 1.25rem;
+    margin-top: 1rem;
+  }
+}

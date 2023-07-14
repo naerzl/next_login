@@ -6,24 +6,24 @@ import { ACCESSTOKEN } from "@zctc/edms-lrs-oauth1.0"
 // 初始化Oauth
 async function oAuthInitiate(request: NextRequest) {
   let _token = request.cookies.get(ACCESSTOKEN)
-  if (request.nextUrl.pathname !== "/") {
-    if (_token) return
-    const request_data = {
-      url: process.env.NEXT_PUBLIC_OAUTH_INITIATE as string,
-      method: "get",
-      data: {
-        oauth_callback: `${process.env.NEXT_PUBLIC_OAUTH_ORIGIN}:${request.nextUrl.port}${process.env.NEXT_PUBLIC_OAUTH_PATH}`,
-      },
-    }
-    const str = await OauthObj.lrsOauthInitiate({
-      request_data,
-      url: request_data.url,
-      _next: request.nextUrl.pathname,
-    })
-    const re = NextResponse.redirect(new URL(str, request.url))
-    re.cookies.set("_next", request.nextUrl.pathname + request.nextUrl.search)
-    return re
-  }
+  // if (request.nextUrl.pathname !== "/") {
+  //   if (_token) return
+  //   const request_data = {
+  //     url: process.env.NEXT_PUBLIC_OAUTH_INITIATE as string,
+  //     method: "get",
+  //     data: {
+  //       oauth_callback: `${process.env.NEXT_PUBLIC_OAUTH_ORIGIN}:${request.nextUrl.port}${process.env.NEXT_PUBLIC_OAUTH_PATH}`,
+  //     },
+  //   }
+  //   const str = await OauthObj.lrsOauthInitiate({
+  //     request_data,
+  //     url: request_data.url,
+  //     _next: request.nextUrl.pathname,
+  //   })
+  //   const re = NextResponse.redirect(new URL(str, request.url))
+  //   re.cookies.set("_next", request.nextUrl.pathname + request.nextUrl.search)
+  //   return re
+  // }
 }
 
 export async function middleware(request: NextRequest) {

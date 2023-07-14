@@ -4,16 +4,21 @@ import { Button, Checkbox, FormHelperText } from "@mui/material"
 import useDebounce from "@/hooks/useDebounce"
 import { useRouter, useSearchParams } from "next/navigation"
 import { LoginWithPasswordClass } from "@/class"
-import { reqLoginWithPassword } from "../api/route"
+import { reqLoginWithPassword } from "../api"
 import PasswordInput from "@/components/PasswordInput"
 import UserNameInput from "@/components/UserNameInput"
 import Link from "next/link"
 import { REGEXP_PHONE } from "@/libs/const"
+import useSWRMutaion from "swr/mutation"
+import { getV1BaseURL } from "@/libs/fetch"
+import { ErrorMessage } from "@hookform/error-message"
+
 interface IFormInput {
   username: string
   password: string
   protocol: string | boolean
 }
+
 export default function UsePassword() {
   const {
     control,
@@ -27,6 +32,8 @@ export default function UsePassword() {
       protocol: "1",
     },
   })
+
+  const { trigger: loginTrigger } = useSWRMutaion(getV1BaseURL("/login"), reqLoginWithPassword)
   const router = useRouter()
   const search = useSearchParams()
 
@@ -34,17 +41,20 @@ export default function UsePassword() {
     async (values: IFormInput) => {
       // 判断是否勾选协议
       if (values.protocol !== true) return
+
       // 判断路径查询参数有没有
       if (search.has("redirect_uri")) {
         let searchObj = new LoginWithPasswordClass({
           password: values.password,
           username: values.username,
         })
+
         search.forEach((value, key) => {
           // @ts-ignore
           searchObj[key] = value
         })
-        const res = await reqLoginWithPassword(searchObj)
+        // 调用登录SWR接口
+        const res = await loginTrigger(searchObj)
         if (res.code !== 2000) return
         router.push(res.data.location + `&is_first_login=${res.data.is_first_login}`)
       }
@@ -55,17 +65,46 @@ export default function UsePassword() {
       <Controller
         name="username"
         control={control}
-        rules={{ required: true, pattern: REGEXP_PHONE }}
+        rules={{
+          required: "请输入手机号",
+          pattern: {
+            value: REGEXP_PHONE,
+            message: "手机号格式不正确",
+          },
+        }}
         render={({ field }) => (
-          <UserNameInput field={field} trigger={trigger} errors={errors.username} />
+          <UserNameInput
+            field={field}
+            trigger={trigger}
+            errors={errors.username}
+            ErrorMessage={() => (
+              <ErrorMessage
+                errors={errors}
+                name="username"
+                render={({ message }) => <p className="text-railway_error text-sm">{message}</p>}
+              />
+            )}
+          />
         )}
       />
       <Controller
-        rules={{ required: true }}
+        rules={{ required: "请输入密码" }}
         name="password"
         control={control}
         render={({ field }) => (
-          <PasswordInput field={field} trigger={trigger} errors={errors.password} />
+          <PasswordInput
+            field={field}
+            trigger={trigger}
+            errors={errors.password}
+            id="login-password"
+            ErrorMessage={() => (
+              <ErrorMessage
+                errors={errors}
+                name="password"
+                render={({ message }) => <p className="text-railway_error text-sm">{message}</p>}
+              />
+            )}
+          />
         )}
       />
       <div className="flex justify-between text-sm text-railway_blue my-1">
@@ -81,7 +120,7 @@ export default function UsePassword() {
               <div className="mb-2">
                 <Checkbox {...field} id="checkbox" />
                 <span className="text-railway_gray">
-                  勾选
+                  我同意
                   <Link href="/term-of-service" className="hover:text-railway_blue">
                     《服务条款》
                   </Link>

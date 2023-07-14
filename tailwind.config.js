@@ -1,5 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  important: '#_next',
+  // important: true,
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -10,7 +12,8 @@ module.exports = {
       colors: {
         'railway_blue': '#0162B1',
         'primary': '#4096ff',
-        'railway_gray': "#8697A8"
+        'railway_gray': "#8697A8",
+        'railway_error': '#d32f2f'
       },
       backgroundImage: {
         'login': 'url(/WaveLine.svg)',
@@ -22,5 +25,4 @@ module.exports = {
     },
   },
   plugins: [],
-
 }

@@ -1,10 +1,15 @@
 import React from "react"
 
+export const metadata = {
+  title: "隐私政策-工程化数字管理系统",
+  description: "隐私政策-工程化数字管理系统",
+}
+
 function PrivacyPolicy() {
   return (
-    <main className="p-10">
-      <h2 className="font-bold text-3xl text-center mb-3">服务条款</h2>
-      <div className="p-3 rounded-xl border border-[#ccc]">
+    <main className="pt-10 px-96 agreement privacy">
+      <h2 className="font-bold text-3xl text-center mb-3">隐私政策</h2>
+      <div className="px-10 rounded-xl border border-[#ccc]">
         <p>
           <strong>引言</strong>
         </p>
