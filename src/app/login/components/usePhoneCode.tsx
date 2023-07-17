@@ -7,7 +7,7 @@ import { LoginWithPhoneClass, XapiStatementsClass } from "@/class"
 import { reqLoginWithPhone } from "../api"
 import UserNameInput from "@/components/UserNameInput"
 import VerifyCodeInput from "@/app/login/components/VerifyCodeInput"
-import { REGEXP_PHONE } from "@/libs/const"
+import { REGEXP_PHONE, STATUS_SUCCESS } from "@/libs/const"
 import useSWRMutation from "swr/mutation"
 import { ErrorMessage } from "@hookform/error-message"
 import message from "antd-message-react"
@@ -47,7 +47,7 @@ export default function UsePhoneCode() {
       })
       // 调用SWR接口
       LoginWithPhoneTrigger(searchObj).then((res) => {
-        if (res.code !== 2000) return message.error("登录失败")
+        if (res.code !== STATUS_SUCCESS) return message.error("登录失败")
         message.success("登录成功")
         const statements: XapiType = new XapiStatementsClass({
           actor:
