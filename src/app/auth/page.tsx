@@ -19,13 +19,18 @@ function Auth() {
   }
   const request = useCallback(async () => {
     // oauth签名的第三步
-    const res = await OauthObj.lrsGetAccessToken({
-      request_data,
-      router,
-      url: request_data.url,
-    })
-    setCookie(ACCESSTOKEN, res)
-    router.push(getCookie("_next") || "/login")
+    try {
+      const res = await OauthObj.lrsGetAccessToken({
+        request_data,
+        router,
+        url: request_data.url,
+      })
+      setCookie(ACCESSTOKEN, res)
+      router.push(getCookie("_next") || "/login")
+    } catch (error) {
+      const path = getCookie(process.env.NEXT_PUBLIC_OAUTH2_PATHNAME_FROM as string) as string
+      router.push(path)
+    }
   }, [])
   useEffect(() => {
     request()
