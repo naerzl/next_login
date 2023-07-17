@@ -10,8 +10,8 @@ import { ReqForgotPhoneCodeParams } from "../types"
 import VerifyCodeInput from "./VerifyCodeInput"
 import { REGEXP_PASSWORD, REGEXP_PHONE } from "@/libs/const"
 import useSWRMutation from "swr/mutation"
-import { getV1BaseURL } from "@/libs/fetch"
 import { ErrorMessage } from "@hookform/error-message"
+import message from "antd-message-react"
 
 export default function UsePhoneCode() {
   const {
@@ -30,17 +30,15 @@ export default function UsePhoneCode() {
   })
 
   // swrapi
-  const { trigger: apiTrigger } = useSWRMutation(
-    getV1BaseURL("/user/forgot/password"),
-    reqPutForgotPassword,
-  )
+  const { trigger: apiTrigger } = useSWRMutation("/user/forgot/password", reqPutForgotPassword)
   const router = useRouter()
 
   // 调用api
   const { run: onSubmit }: { run: SubmitHandler<ReqForgotPhoneCodeParams> } = useDebounce(
     async (values: ReqForgotPhoneCodeParams) => {
       apiTrigger(values).then((res) => {
-        if (res.code !== 2000) return
+        if (res.code !== 2000) return message.error("操作失败")
+        message.success("操作成功")
         router.back()
       })
     },

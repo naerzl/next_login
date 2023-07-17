@@ -10,8 +10,9 @@ import UserNameInput from "@/components/UserNameInput"
 import Link from "next/link"
 import { REGEXP_PHONE } from "@/libs/const"
 import useSWRMutaion from "swr/mutation"
-import { getV1BaseURL } from "@/libs/fetch"
 import { ErrorMessage } from "@hookform/error-message"
+import message from "antd-message-react"
+import "antd-message-react/dist/index.css"
 
 interface IFormInput {
   username: string
@@ -33,7 +34,7 @@ export default function UsePassword() {
     },
   })
 
-  const { trigger: loginTrigger } = useSWRMutaion(getV1BaseURL("/login"), reqLoginWithPassword)
+  const { trigger: loginTrigger } = useSWRMutaion("/login", reqLoginWithPassword)
   const router = useRouter()
   const search = useSearchParams()
 
@@ -55,7 +56,8 @@ export default function UsePassword() {
         })
         // 调用登录SWR接口
         const res = await loginTrigger(searchObj)
-        if (res.code !== 2000) return
+        if (res.code !== 2000) return message.error("登录失败")
+        message.success("登录成功")
         router.push(res.data.location + `&is_first_login=${res.data.is_first_login}`)
       }
     },

@@ -6,13 +6,14 @@ import {
   ReqLoginResponse,
 } from "@/types/api"
 import { formDataInstance } from "@/libs/init_oauth"
+import { getV1BaseURL } from "@/libs/fetch"
 
 // 密码登录
 export const reqLoginWithPassword = (
   url: string,
   { arg }: FetchParams<ReqLoginParams>,
 ): Promise<ReqFetch<ReqLoginResponse>> => {
-  return fetch(url, {
+  return fetch(getV1BaseURL(url), {
     method: "post",
     body: formDataInstance.convertModelToFormData(arg),
   }).then((res) => res.json())
@@ -23,7 +24,7 @@ export const reqLoginWithPhone = (
   url: string,
   { arg }: FetchParams<ReqLoginPhoneCodeParams>,
 ): Promise<ReqFetch<ReqLoginResponse>> =>
-  fetch(url, {
+  fetch(getV1BaseURL(url), {
     method: "post",
     body: formDataInstance.convertModelToFormData(arg),
   }).then((res) => res.json())
@@ -33,6 +34,6 @@ export const reqGetPhoneCode = (
   url: string,
   { arg }: FetchParams<string>,
 ): Promise<ReqFetch<{ code: string }>> =>
-  fetch(`${url}${arg}`, {
+  fetch(`${getV1BaseURL(url)}${arg}`, {
     method: "get",
   }).then((res) => res.json())

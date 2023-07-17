@@ -8,8 +8,8 @@ import PasswordInput from "@/components/PasswordInput"
 import { ReqModifyPasswordParams } from "../types"
 import { REGEXP_PASSWORD } from "@/libs/const"
 import useSWRMutation from "swr/mutation"
-import { getV1BaseURL } from "@/libs/fetch"
 import { ErrorMessage } from "@hookform/error-message"
+import message from "antd-message-react"
 
 export default function UsePassword() {
   const {
@@ -24,16 +24,14 @@ export default function UsePassword() {
       checked_password: "",
     },
   })
-  const { trigger: apiTrigger } = useSWRMutation(
-    getV1BaseURL("/user/modify/password"),
-    reqPutModifyPassword,
-  )
+  const { trigger: apiTrigger } = useSWRMutation("/user/modify/password", reqPutModifyPassword)
   const router = useRouter()
 
   const { run: onSubmit }: { run: SubmitHandler<ReqModifyPasswordParams> } = useDebounce(
     async (values: ReqModifyPasswordParams) => {
       apiTrigger(values).then((res) => {
-        if (res.code !== 2000) return
+        if (res.code !== 2000) return message.error("登录失败")
+        message.success("登录成功")
         router.back()
       })
     },

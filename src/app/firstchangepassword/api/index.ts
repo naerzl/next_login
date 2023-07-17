@@ -1,4 +1,5 @@
 import { getCookie } from "@/libs/cookies"
+import { getV1BaseURL } from "@/libs/fetch"
 import { formDataInstance } from "@/libs/init_oauth"
 import { FetchParams, ReqChangePasswordParams, ReqFetch, ReqLoginResponse } from "@/types/api"
 
@@ -12,7 +13,7 @@ export const reqChangePasswordWidthPwd = (
   const authCodeOfCookie =
     getCookie(OAUTH2_ACCESS_TOKEN as string) &&
     JSON.parse(getCookie(OAUTH2_ACCESS_TOKEN as string) as string)
-  return fetch(url, {
+  return fetch(getV1BaseURL(url), {
     method: "put",
     body: formDataInstance.convertModelToFormData(arg),
     headers: {

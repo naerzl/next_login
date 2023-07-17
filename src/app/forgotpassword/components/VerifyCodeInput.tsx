@@ -4,14 +4,14 @@ import { Button, TextField } from "@mui/material"
 import React from "react"
 import { reqForgotPasswordCode } from "../api"
 import useSWRMutation from "swr/mutation"
-import { getV1BaseURL } from "@/libs/fetch"
 import useDebounce from "@/hooks/useDebounce"
+import message from "antd-message-react"
 
 const SECONDS = 60
 const VerifyCodeInput = React.forwardRef(
   (props: { field?: any; trigger?: any; errors?: any; getValues?: any; callback?: any }, ref) => {
     const { trigger: apiTrigger } = useSWRMutation(
-      getV1BaseURL("/user/forgot/password/code?phone="),
+      "/user/forgot/password/code?phone=",
       reqForgotPasswordCode,
     )
     const { count, start } = useCountDown(SECONDS, () => {})
@@ -23,7 +23,8 @@ const VerifyCodeInput = React.forwardRef(
       if (REGEXP_PHONE.test(getValues("phone"))) {
         start()
         apiTrigger(getValues("phone")).then((res) => {
-          if (res.code !== 2000) return
+          if (res.code !== 2000) return message.error("操作失败")
+          message.success("操作成功")
           console.log(`code=${res.data.code}`)
         })
       }

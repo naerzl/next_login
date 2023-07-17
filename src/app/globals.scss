@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+@import "antd-message-react/dist/index.css";
 :root {
   --railway_blue: #0162b1;
 }
@@ -64,4 +64,9 @@
     font-size: 1.25rem;
     margin-top: 1rem;
   }
+}
+
+.ant-message-custom-content {
+  display: flex;
+  align-items: center;
 }

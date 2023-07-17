@@ -2,19 +2,16 @@ import { reqGetPhoneCode } from "@/app/login/api"
 import useCountDown from "@/hooks/useCountDown"
 import useDebounce from "@/hooks/useDebounce"
 import { REGEXP_PHONE } from "@/libs/const"
-import { getV1BaseURL } from "@/libs/fetch"
 import { Button, TextField } from "@mui/material"
 import React from "react"
 import useSWRMutation from "swr/mutation"
+import message from "antd-message-react"
 
 const SECONDS = 60
 
 const VerifyCodeInput = React.forwardRef(
   (props: { field?: any; trigger?: any; errors?: any; getValues?: any; callback?: any }, ref) => {
-    const { trigger: apiTrigger } = useSWRMutation(
-      getV1BaseURL("/login/phone/code?phone="),
-      reqGetPhoneCode,
-    )
+    const { trigger: apiTrigger } = useSWRMutation("/login/phone/code?phone=", reqGetPhoneCode)
     // 倒计时hooks接口一个时间和一个倒计时结束的回调函数
     const { count, start } = useCountDown(SECONDS, () => {})
     const { field, getValues, errors, trigger } = props
@@ -29,7 +26,7 @@ const VerifyCodeInput = React.forwardRef(
         start()
         // 调佣api
         apiTrigger(getValues("phone")).then((res) => {
-          if (res.code !== 2000) return
+          if (res.code !== 2000) return message.error("操作失败")
           console.log(`code=${res.data.code}`)
         })
       }

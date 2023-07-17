@@ -8,8 +8,8 @@ import { useRouter } from "next/navigation"
 import { getCookie } from "@/libs/cookies"
 import { REGEXP_PASSWORD } from "@/libs/const"
 import useSWRMutaion from "swr/mutation"
-import { getV1BaseURL } from "@/libs/fetch"
 import { ErrorMessage } from "@hookform/error-message"
+import message from "antd-message-react"
 
 const AUTH2PATHFROM = process.env.NEXT_PUBLIC_OAUTH2_PATHNAME_FROM as string
 
@@ -27,7 +27,7 @@ export default function UsePassword() {
   })
 
   const { trigger: apiTrigger } = useSWRMutaion(
-    getV1BaseURL("/user/first/change_password"),
+    "/user/first/change_password",
     reqChangePasswordWidthPwd,
   )
   const router = useRouter()
@@ -36,7 +36,8 @@ export default function UsePassword() {
   const { run: onSubmit }: { run: SubmitHandler<ReqChangePasswordParams> } = useDebounce(
     (values) => {
       apiTrigger(values).then((res) => {
-        if (res.code !== 2000) return
+        if (res.code !== 2000) return message.error("操作失败")
+        message.success("操作成功")
         router.push(getCookie(AUTH2PATHFROM) as string)
       })
     },

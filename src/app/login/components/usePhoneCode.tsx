@@ -9,8 +9,8 @@ import UserNameInput from "@/components/UserNameInput"
 import VerifyCodeInput from "@/app/login/components/VerifyCodeInput"
 import { REGEXP_PHONE } from "@/libs/const"
 import useSWRMutation from "swr/mutation"
-import { getV1BaseURL } from "@/libs/fetch"
 import { ErrorMessage } from "@hookform/error-message"
+import message from "antd-message-react"
 
 interface IFormInput {
   phone: string
@@ -31,10 +31,7 @@ export default function UsePhoneCode() {
     },
   })
 
-  const { trigger: LoginWithPhoneTrigger } = useSWRMutation(
-    getV1BaseURL("/login/phone"),
-    reqLoginWithPhone,
-  )
+  const { trigger: LoginWithPhoneTrigger } = useSWRMutation("/login/phone", reqLoginWithPhone)
   const router = useRouter()
   const search = useSearchParams()
 
@@ -47,7 +44,8 @@ export default function UsePhoneCode() {
       })
       // 调用SWR接口
       LoginWithPhoneTrigger(searchObj).then((res) => {
-        if (res.code !== 2000) return
+        if (res.code !== 2000) return message.error("登录失败")
+        message.success("登录成功")
         router.push(res.data.location + `&is_first_login=${res.data.is_first_login}`)
       })
     }
