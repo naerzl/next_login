@@ -59,7 +59,7 @@ export default function UsePassword() {
         })
         // 调用登录SWR接口
         const res = await loginTrigger(searchObj)
-        if (res.code !== 2000) return message.error(res.msg)
+        if (res.code !== STATUS_SUCCESS) return message.error(res.msg)
         message.success("登录成功")
         const statements: XapiType = new XapiStatementsClass({
           actor:
