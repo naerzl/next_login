@@ -3,7 +3,7 @@ import React from "react"
 import { Button, Checkbox, FormHelperText } from "@mui/material"
 import useDebounce from "@/hooks/useDebounce"
 import { useRouter, useSearchParams } from "next/navigation"
-import { LoginWithPasswordClass } from "@/class"
+import { LoginWithPasswordClass, XapiStatementsClass } from "@/class"
 import { reqLoginWithPassword } from "../api"
 import PasswordInput from "@/components/PasswordInput"
 import UserNameInput from "@/components/UserNameInput"
@@ -13,6 +13,9 @@ import useSWRMutaion from "swr/mutation"
 import { ErrorMessage } from "@hookform/error-message"
 import message from "antd-message-react"
 import "antd-message-react/dist/index.css"
+import { XapiType } from "@/types/authorization"
+import { oAuth1SendStatement } from "@/libs/methods"
+import { LrsXapiVerbs } from "@/class/xapi"
 
 interface IFormInput {
   username: string
@@ -56,8 +59,15 @@ export default function UsePassword() {
         })
         // 调用登录SWR接口
         const res = await loginTrigger(searchObj)
-        if (res.code !== 2000) return message.error("登录失败")
+        if (res.code !== 2000) return message.error(res.msg)
         message.success("登录成功")
+        const statements: XapiType = new XapiStatementsClass({
+          actor:
+            process.env.NEXT_PUBLIC_OAUTH_ORIGIN + "/user/" + "c25b6963edb8488883d7d8441c0fb549",
+          object: "http://activitystrea.ms/schema/1.0/application",
+          verb: LrsXapiVerbs.AUTHORIZE,
+        })
+        oAuth1SendStatement(statements)
         router.push(res.data.location + `&is_first_login=${res.data.is_first_login}`)
       }
     },

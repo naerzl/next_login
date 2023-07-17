@@ -1,5 +1,7 @@
+import { XapiType } from "@/types/authorization"
 import { LoginParamsType, LoginWithPhoneParamsType } from "./index.d"
 
+// 登录基类
 export class LoginParamsClass {
   client_id: string
   code_challenge: string
@@ -18,6 +20,8 @@ export class LoginParamsClass {
       (this.state = "")
   }
 }
+
+// 密码登录子类
 export class LoginWithPasswordClass extends LoginParamsClass {
   password: string
   username: string
@@ -28,6 +32,7 @@ export class LoginWithPasswordClass extends LoginParamsClass {
   }
 }
 
+// 手机号登录子类
 export class LoginWithPhoneClass extends LoginParamsClass {
   phone: string
   code: string
@@ -35,5 +40,35 @@ export class LoginWithPhoneClass extends LoginParamsClass {
     super()
     this.phone = obj.phone
     this.code = obj.code
+  }
+}
+
+interface XapiClassType {
+  actor: string
+  object: string
+  verb: string | XapiType["verb"]
+}
+
+// statements类
+export class XapiStatementsClass {
+  actor: XapiType["actor"]
+  verb: XapiType["verb"]
+  object: XapiType["object"]
+  constructor({ actor, object, verb }: XapiClassType) {
+    this.actor = {
+      objectType: "Agent",
+      openid: actor,
+    }
+    this.object = {
+      objectType: "Activity",
+      id: object,
+    }
+    if (typeof verb === "string") {
+      this.verb = {
+        id: verb,
+      }
+    } else {
+      this.verb = verb
+    }
   }
 }

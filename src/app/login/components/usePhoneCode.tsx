@@ -3,7 +3,7 @@ import React from "react"
 import { Button } from "@mui/material"
 import useDebounce from "@/hooks/useDebounce"
 import { useRouter, useSearchParams } from "next/navigation"
-import { LoginWithPhoneClass } from "@/class"
+import { LoginWithPhoneClass, XapiStatementsClass } from "@/class"
 import { reqLoginWithPhone } from "../api"
 import UserNameInput from "@/components/UserNameInput"
 import VerifyCodeInput from "@/app/login/components/VerifyCodeInput"
@@ -11,6 +11,9 @@ import { REGEXP_PHONE } from "@/libs/const"
 import useSWRMutation from "swr/mutation"
 import { ErrorMessage } from "@hookform/error-message"
 import message from "antd-message-react"
+import { XapiType } from "@/types/authorization"
+import { oAuth1SendStatement } from "@/libs/methods"
+import { LrsXapiVerbs } from "@/class/xapi"
 
 interface IFormInput {
   phone: string
@@ -46,6 +49,13 @@ export default function UsePhoneCode() {
       LoginWithPhoneTrigger(searchObj).then((res) => {
         if (res.code !== 2000) return message.error("登录失败")
         message.success("登录成功")
+        const statements: XapiType = new XapiStatementsClass({
+          actor:
+            process.env.NEXT_PUBLIC_OAUTH_ORIGIN + "/user/" + "c25b6963edb8488883d7d8441c0fb549",
+          object: "http://activitystrea.ms/schema/1.0/application",
+          verb: LrsXapiVerbs.AUTHORIZE,
+        })
+        oAuth1SendStatement(statements)
         router.push(res.data.location + `&is_first_login=${res.data.is_first_login}`)
       })
     }
