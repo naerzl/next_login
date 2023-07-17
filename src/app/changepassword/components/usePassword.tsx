@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation"
 import { reqPutModifyPassword } from "../api/index"
 import PasswordInput from "@/components/PasswordInput"
 import { ReqModifyPasswordParams } from "../types"
-import { REGEXP_PASSWORD } from "@/libs/const"
+import { REGEXP_PASSWORD, STATUS_SUCCESS } from "@/libs/const"
 import useSWRMutation from "swr/mutation"
 import { ErrorMessage } from "@hookform/error-message"
 import message from "antd-message-react"
@@ -30,7 +30,7 @@ export default function UsePassword() {
   const { run: onSubmit }: { run: SubmitHandler<ReqModifyPasswordParams> } = useDebounce(
     async (values: ReqModifyPasswordParams) => {
       apiTrigger(values).then((res) => {
-        if (res.code !== 2000) return message.error("登录失败")
+        if (res.code !== STATUS_SUCCESS) return message.error("登录失败")
         message.success("登录成功")
         router.back()
       })
