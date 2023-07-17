@@ -1,7 +1,6 @@
 "use client"
 import React from "react"
 import PassWord from "./components/PassWord"
-// import PassWord from "./components/PassWord"
 
 export default function Login() {
   return (

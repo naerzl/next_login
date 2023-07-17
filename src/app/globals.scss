@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+@import "antd-message-react/dist/index.css";
 :root {
   --railway_blue: #0162b1;
 }
@@ -52,4 +52,21 @@
 
 .ant-tabs-ink-bar {
   background-color: var(--railway_blue) !important;
+}
+
+.agreement {
+  p {
+    margin: 4px 0;
+    line-height: 30px;
+  }
+  p:has(strong) {
+    color: #245be2;
+    font-size: 1.25rem;
+    margin-top: 1rem;
+  }
+}
+
+.ant-message-custom-content {
+  display: flex;
+  align-items: center;
 }

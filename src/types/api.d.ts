@@ -4,6 +4,10 @@ export interface ReqFetch<T> {
   data: T
 }
 
+export interface FetchParams<T> {
+  arg: T
+}
+
 // 登录接口响应数据类型
 export interface ReqLoginResponse {
   location: string

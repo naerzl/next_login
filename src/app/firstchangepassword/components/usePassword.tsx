@@ -1,13 +1,18 @@
-import { reqChangePasswordWidthPwd } from "../api/route"
+import { reqChangePasswordWidthPwd } from "../api"
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import useDebounce from "@/hooks/useDebounce"
 import { ReqChangePasswordParams } from "@/types/api"
 import PasswordInput from "@/components/PasswordInput"
 import { Button } from "@mui/material"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { getCookie } from "@/libs/cookies"
 import { REGEXP_PASSWORD } from "@/libs/const"
+import useSWRMutaion from "swr/mutation"
+import { ErrorMessage } from "@hookform/error-message"
+import message from "antd-message-react"
+
 const AUTH2PATHFROM = process.env.NEXT_PUBLIC_OAUTH2_PATHNAME_FROM as string
+
 export default function UsePassword() {
   const {
     control,
@@ -20,13 +25,19 @@ export default function UsePassword() {
       password: "",
     },
   })
+
+  const { trigger: apiTrigger } = useSWRMutaion(
+    "/user/first/change_password",
+    reqChangePasswordWidthPwd,
+  )
   const router = useRouter()
-  const params = useSearchParams()
+
+  // 加上防抖的提交事件
   const { run: onSubmit }: { run: SubmitHandler<ReqChangePasswordParams> } = useDebounce(
     (values) => {
-      reqChangePasswordWidthPwd(values, params.get("code") as string).then((res) => {
-        if (res.code !== 2000) return
-        debugger
+      apiTrigger(values).then((res) => {
+        if (res.code !== 2000) return message.error("操作失败")
+        message.success("操作成功")
         router.push(getCookie(AUTH2PATHFROM) as string)
       })
     },
@@ -39,24 +50,51 @@ export default function UsePassword() {
           name="password"
           control={control}
           rules={{
-            required: true,
-            pattern: REGEXP_PASSWORD,
+            required: "请输入密码",
+            pattern: {
+              value: REGEXP_PASSWORD,
+              message: "数字、大写字母、小写字母以及特殊符号需要涵盖2项以上",
+            },
           }}
           render={({ field }) => (
-            <PasswordInput field={field} trigger={trigger} errors={errors.password} />
+            <PasswordInput
+              field={field}
+              trigger={trigger}
+              errors={errors.password}
+              id="first-change-password"
+              ErrorMessage={() => (
+                <ErrorMessage
+                  errors={errors}
+                  name="password"
+                  render={({ message }) => <p className="text-railway_error text-sm">{message}</p>}
+                />
+              )}
+            />
           )}
         />
         <Controller
           rules={{
             required: true,
             validate: (value, formValues: ReqChangePasswordParams) => {
-              return value === formValues.password
+              return value === formValues.password || "两次密码输入不一致"
             },
           }}
           name="checked_password"
           control={control}
           render={({ field }) => (
-            <PasswordInput field={field} trigger={trigger} errors={errors.checked_password} />
+            <PasswordInput
+              field={field}
+              trigger={trigger}
+              errors={errors.checked_password}
+              id="first-change-checked-password"
+              ErrorMessage={() => (
+                <ErrorMessage
+                  errors={errors}
+                  name="checked_password"
+                  render={({ message }) => <p className="text-railway_error text-sm">{message}</p>}
+                />
+              )}
+            />
           )}
         />
         <Button variant="contained" type="submit" className="bg-railway_blue h-10" fullWidth>

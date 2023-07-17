@@ -4,10 +4,14 @@ import { Button } from "@mui/material"
 import useDebounce from "@/hooks/useDebounce"
 import { useRouter, useSearchParams } from "next/navigation"
 import { LoginWithPhoneClass } from "@/class"
-import { reqLoginWithPhone } from "../api/route"
+import { reqLoginWithPhone } from "../api"
 import UserNameInput from "@/components/UserNameInput"
 import VerifyCodeInput from "@/app/login/components/VerifyCodeInput"
 import { REGEXP_PHONE } from "@/libs/const"
+import useSWRMutation from "swr/mutation"
+import { ErrorMessage } from "@hookform/error-message"
+import message from "antd-message-react"
+
 interface IFormInput {
   phone: string
   code: string
@@ -26,6 +30,8 @@ export default function UsePhoneCode() {
       code: "",
     },
   })
+
+  const { trigger: LoginWithPhoneTrigger } = useSWRMutation("/login/phone", reqLoginWithPhone)
   const router = useRouter()
   const search = useSearchParams()
 
@@ -36,9 +42,10 @@ export default function UsePhoneCode() {
         // @ts-ignore
         searchObj[key] = value
       })
-      reqLoginWithPhone(searchObj).then((res) => {
-        if (res.code !== 2000) return
-        debugger
+      // 调用SWR接口
+      LoginWithPhoneTrigger(searchObj).then((res) => {
+        if (res.code !== 2000) return message.error("登录失败")
+        message.success("登录成功")
         router.push(res.data.location + `&is_first_login=${res.data.is_first_login}`)
       })
     }
@@ -49,9 +56,26 @@ export default function UsePhoneCode() {
       <Controller
         name="phone"
         control={control}
-        rules={{ required: true, pattern: REGEXP_PHONE }}
+        rules={{
+          required: "请输入手机号",
+          pattern: {
+            value: REGEXP_PHONE,
+            message: "手机号格式不正确",
+          },
+        }}
         render={({ field }) => (
-          <UserNameInput field={field} trigger={trigger} errors={errors.phone} />
+          <UserNameInput
+            field={field}
+            trigger={trigger}
+            errors={errors.phone}
+            ErrorMessage={() => (
+              <ErrorMessage
+                errors={errors}
+                name="phone"
+                render={({ message }) => <p className="text-railway_error text-sm">{message}</p>}
+              />
+            )}
+          />
         )}
       />
       <Controller
