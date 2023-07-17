@@ -1,5 +1,5 @@
 import useCountDown from "@/hooks/useCountDown"
-import { REGEXP_PHONE } from "@/libs/const"
+import { REGEXP_PHONE, STATUS_SUCCESS } from "@/libs/const"
 import { Button, TextField } from "@mui/material"
 import React from "react"
 import { reqForgotPasswordCode } from "../api"
@@ -23,7 +23,7 @@ const VerifyCodeInput = React.forwardRef(
       if (REGEXP_PHONE.test(getValues("phone"))) {
         start()
         apiTrigger(getValues("phone")).then((res) => {
-          if (res.code !== 2000) return message.error("操作失败")
+          if (res.code !== STATUS_SUCCESS) return message.error("操作失败")
           message.success("操作成功")
           console.log(`code=${res.data.code}`)
         })

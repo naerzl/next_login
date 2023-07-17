@@ -8,7 +8,7 @@ import PasswordInput from "@/components/PasswordInput"
 import UserNameInput from "@/components/UserNameInput"
 import { ReqForgotPhoneCodeParams } from "../types"
 import VerifyCodeInput from "./VerifyCodeInput"
-import { REGEXP_PASSWORD, REGEXP_PHONE } from "@/libs/const"
+import { REGEXP_PASSWORD, REGEXP_PHONE, STATUS_SUCCESS } from "@/libs/const"
 import useSWRMutation from "swr/mutation"
 import { ErrorMessage } from "@hookform/error-message"
 import message from "antd-message-react"
@@ -37,7 +37,7 @@ export default function UsePhoneCode() {
   const { run: onSubmit }: { run: SubmitHandler<ReqForgotPhoneCodeParams> } = useDebounce(
     async (values: ReqForgotPhoneCodeParams) => {
       apiTrigger(values).then((res) => {
-        if (res.code !== 2000) return message.error("操作失败")
+        if (res.code !== STATUS_SUCCESS) return message.error("操作失败")
         message.success("操作成功")
         router.back()
       })

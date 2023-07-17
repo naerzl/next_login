@@ -8,7 +8,7 @@ import { reqLoginWithPassword } from "../api"
 import PasswordInput from "@/components/PasswordInput"
 import UserNameInput from "@/components/UserNameInput"
 import Link from "next/link"
-import { REGEXP_PHONE } from "@/libs/const"
+import { REGEXP_PHONE, STATUS_SUCCESS } from "@/libs/const"
 import useSWRMutaion from "swr/mutation"
 import { ErrorMessage } from "@hookform/error-message"
 import message from "antd-message-react"
@@ -56,7 +56,7 @@ export default function UsePassword() {
         })
         // 调用登录SWR接口
         const res = await loginTrigger(searchObj)
-        if (res.code !== 2000) return message.error("登录失败")
+        if (res.code !== STATUS_SUCCESS) return message.error("登录失败")
         message.success("登录成功")
         router.push(res.data.location + `&is_first_login=${res.data.is_first_login}`)
       }
