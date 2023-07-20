@@ -2,9 +2,10 @@
 const nextConfig = {
     webpack: (config) => {
         config.resolve.extensionAlias = {
-            ".js": [".ts", ".tsx", ".js", ".jsx"],
+            ".js": [".ts", ".tsx", ".js", ".jsx", '.d.ts'],
             ".mjs": [".mts", ".mjs"],
             ".cjs": [".cts", ".cjs"],
+
         };
         return config;
     },
