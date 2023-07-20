@@ -3,7 +3,7 @@ import React from "react"
 import { Button } from "@mui/material"
 import useDebounce from "@/hooks/useDebounce"
 import { useRouter, useSearchParams } from "next/navigation"
-import { LoginWithPhoneClass, XapiStatementsClass } from "@/class"
+import { LoginWithPhoneClass } from "@/class"
 import { reqLoginWithPhone } from "../api"
 import UserNameInput from "@/components/UserNameInput"
 import VerifyCodeInput from "@/app/login/components/VerifyCodeInput"
@@ -13,7 +13,7 @@ import { ErrorMessage } from "@hookform/error-message"
 import message from "antd-message-react"
 import { XapiType } from "@/types/authorization"
 import { oAuth1SendStatement } from "@/libs/methods"
-import { LrsXapiVerbs } from "@/class/xapi"
+import { LrsXapiVerbs, XapiStatementsClass } from "@zctc/edms-lrs-oauth1.0/lrs-xapi"
 
 interface IFormInput {
   phone: string

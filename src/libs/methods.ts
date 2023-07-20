@@ -1,11 +1,12 @@
 import { ACCESSTOKEN } from "@zctc/edms-lrs-oauth1.0"
-import { LrsOaurhRequestData } from "@/types/authorization"
 import XAPI from "@xapi/xapi"
 import { OauthObj } from "./init_oauth"
 import { getCookie } from "./cookies"
+import { AuthorizationHeader } from "@/types/authorization"
+import { OAuth1RequestDataType } from "@zctc/edms-lrs-oauth1.0/types"
 
 // 获取statement请求的authorization
-export function GetAuthorizationHeader(request_data: LrsOaurhRequestData) {
+export function GetAuthorizationHeader(request_data: OAuth1RequestDataType<AuthorizationHeader>) {
   const obj = OauthObj.oauth.authorize(request_data) as any
   return "OAuth " + new URLSearchParams(obj).toString().replaceAll("&", ",")
 }
@@ -19,7 +20,7 @@ export function oAuth1SendStatement(statement: any) {
     method: "post",
     data: {
       oauth_token: searchObj.get("oauth_token") as string,
-      oauth_token_secret: searchObj.get("oauth_token_secret"),
+      oauth_token_secret: searchObj.get("oauth_token_secret") as string,
     },
   }
   const auth = GetAuthorizationHeader(request_data)

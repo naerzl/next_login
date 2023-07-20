@@ -2,14 +2,15 @@
 import React, { useCallback, useEffect } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { OauthObj } from "@/libs/init_oauth"
-import { LrsOaurhRequestData } from "@/types/authorization"
 import { getCookie, setCookie } from "@/libs/cookies"
 import { ACCESSTOKEN } from "@zctc/edms-lrs-oauth1.0"
+import { OAuth1RequestDataType, OAuth1ThreeDataType } from "@zctc/edms-lrs-oauth1.0/types"
+
 function Auth() {
   const router = useRouter()
   const searchParams = useSearchParams()
   // 需要签名的对象
-  const request_data: LrsOaurhRequestData = {
+  const request_data: OAuth1RequestDataType<OAuth1ThreeDataType> = {
     url: `${process.env.NEXT_PUBLIC_OAUTH_TOKEN}`,
     method: "get",
     data: {
@@ -22,7 +23,6 @@ function Auth() {
     try {
       const res = await OauthObj.lrsGetAccessToken({
         request_data,
-        router,
         url: request_data.url,
       })
       setCookie(ACCESSTOKEN, res)

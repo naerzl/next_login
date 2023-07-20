@@ -1,1 +1,1 @@
-declare module "@zctc/edms-lrs-oauth1.0"
+// declare module "@zctc/edms-lrs-oauth1.0"

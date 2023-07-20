@@ -2,13 +2,14 @@ import { NextResponse } from "next/server"
 import { NextRequest } from "next/server"
 import { OauthObj } from "./libs/init_oauth"
 import { ACCESSTOKEN } from "@zctc/edms-lrs-oauth1.0"
+import { OAuth1FirstDataType, OAuth1RequestDataType } from "@zctc/edms-lrs-oauth1.0/types"
 
 // 初始化Oauth
 async function oAuthInitiate(request: NextRequest) {
   let _token = request.cookies.get(ACCESSTOKEN)
   if (request.nextUrl.pathname !== "/") {
     if (_token) return
-    const request_data = {
+    const request_data: OAuth1RequestDataType<OAuth1FirstDataType> = {
       url: process.env.NEXT_PUBLIC_OAUTH_INITIATE as string,
       method: "get",
       data: {

@@ -3,7 +3,7 @@ import React from "react"
 import { Button, Checkbox, FormHelperText } from "@mui/material"
 import useDebounce from "@/hooks/useDebounce"
 import { useRouter, useSearchParams } from "next/navigation"
-import { LoginWithPasswordClass, XapiStatementsClass } from "@/class"
+import { LoginWithPasswordClass } from "@/class"
 import { reqLoginWithPassword } from "../api"
 import PasswordInput from "@/components/PasswordInput"
 import UserNameInput from "@/components/UserNameInput"
@@ -15,7 +15,7 @@ import message from "antd-message-react"
 import "antd-message-react/dist/index.css"
 import { XapiType } from "@/types/authorization"
 import { oAuth1SendStatement } from "@/libs/methods"
-import { LrsXapiVerbs } from "@/class/xapi"
+import { LrsXapiVerbs, XapiStatementsClass } from "@zctc/edms-lrs-oauth1.0/lrs-xapi"
 
 interface IFormInput {
   username: string

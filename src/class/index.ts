@@ -42,33 +42,3 @@ export class LoginWithPhoneClass extends LoginParamsClass {
     this.code = obj.code
   }
 }
-
-interface XapiClassType {
-  actor: string
-  object: string
-  verb: string | XapiType["verb"]
-}
-
-// statements类
-export class XapiStatementsClass {
-  actor: XapiType["actor"]
-  verb: XapiType["verb"]
-  object: XapiType["object"]
-  constructor({ actor, object, verb }: XapiClassType) {
-    this.actor = {
-      objectType: "Agent",
-      openid: actor,
-    }
-    this.object = {
-      objectType: "Activity",
-      id: object,
-    }
-    if (typeof verb === "string") {
-      this.verb = {
-        id: verb,
-      }
-    } else {
-      this.verb = verb
-    }
-  }
-}
