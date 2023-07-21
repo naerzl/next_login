@@ -11,7 +11,7 @@ const SECONDS = 60
 const VerifyCodeInput = React.forwardRef(
   (props: { field?: any; trigger?: any; errors?: any; getValues?: any; callback?: any }, ref) => {
     const { trigger: apiTrigger } = useSWRMutation(
-      "/user/forgot/password/code?phone=",
+      "/user/forgot/password/code",
       reqForgotPasswordCode,
     )
     const { count, start } = useCountDown(SECONDS, () => {})
@@ -22,7 +22,7 @@ const VerifyCodeInput = React.forwardRef(
       trigger("phone")
       if (REGEXP_PHONE.test(getValues("phone"))) {
         start()
-        apiTrigger(getValues("phone")).then((res) => {
+        apiTrigger({ phone: getValues("phone") }).then((res) => {
           if (res.code !== STATUS_SUCCESS) return message.error("操作失败")
           message.success("操作成功")
           console.log(`code=${res.data.code}`)

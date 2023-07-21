@@ -11,7 +11,7 @@ const SECONDS = 60
 
 const VerifyCodeInput = React.forwardRef(
   (props: { field?: any; trigger?: any; errors?: any; getValues?: any; callback?: any }, ref) => {
-    const { trigger: apiTrigger } = useSWRMutation("/login/phone/code?phone=", reqGetPhoneCode)
+    const { trigger: apiTrigger } = useSWRMutation("/login/phone/code", reqGetPhoneCode)
     // 倒计时hooks接口一个时间和一个倒计时结束的回调函数
     const { count, start } = useCountDown(SECONDS, () => {})
     const { field, getValues, errors, trigger } = props
@@ -25,7 +25,7 @@ const VerifyCodeInput = React.forwardRef(
         // 开始计时
         start()
         // 调佣api
-        apiTrigger(getValues("phone")).then((res) => {
+        apiTrigger({ phone: getValues("phone") }).then((res) => {
           if (res.code !== STATUS_SUCCESS) return message.error("操作失败")
           console.log(`code=${res.data.code}`)
         })
