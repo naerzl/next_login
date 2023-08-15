@@ -6,12 +6,10 @@ import PasswordInput from "@/components/PasswordInput"
 import { Button } from "@mui/material"
 import { useRouter } from "next/navigation"
 import { getCookie } from "@/libs/cookies"
-import { REGEXP_PASSWORD, STATUS_SUCCESS } from "@/libs/const"
+import { OAUTH2_PATH_FROM, REGEXP_PASSWORD, STATUS_SUCCESS } from "@/libs/const"
 import useSWRMutaion from "swr/mutation"
 import { ErrorMessage } from "@hookform/error-message"
 import message from "antd-message-react"
-
-const AUTH2PATHFROM = process.env.NEXT_PUBLIC_OAUTH2_PATHNAME_FROM as string
 
 export default function UsePassword() {
   const {
@@ -38,7 +36,7 @@ export default function UsePassword() {
       apiTrigger(values).then((res) => {
         if (res.code !== STATUS_SUCCESS) return message.error("操作失败")
         message.success("操作成功")
-        router.push(getCookie(AUTH2PATHFROM) as string)
+        router.push(getCookie(OAUTH2_PATH_FROM) as string)
       })
     },
   )

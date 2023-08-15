@@ -3,6 +3,7 @@ import { NextRequest } from "next/server"
 import { OauthObj } from "./libs/init_oauth"
 import { ACCESSTOKEN } from "@zctc/edms-lrs-oauth1.0"
 import { OAuth1FirstDataType, OAuth1RequestDataType } from "@zctc/edms-lrs-oauth1.0/types"
+// import { OAUTH2_PATH_FROM } from "./libs/const"
 
 // 初始化Oauth
 async function oAuthInitiate(request: NextRequest) {
@@ -26,10 +27,9 @@ async function oAuthInitiate(request: NextRequest) {
       re.cookies.set("_next", request.nextUrl.pathname + request.nextUrl.search)
       return re
     } catch (error) {
-      const path = request.cookies.get(
-        process.env.NEXT_PUBLIC_OAUTH2_PATHNAME_FROM as string,
-      ) as any
-      return NextResponse.redirect(new URL(path))
+      console.log(error)
+      // const path = request.cookies.get(OAUTH2_PATH_FROM)?.value as any
+      // return NextResponse.redirect(new URL(path))
     }
   }
 }

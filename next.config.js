@@ -9,7 +9,7 @@ const nextConfig = {
         };
         return config;
     },
-    transpilePackages: ['@zctc/edms-lrs-oauth1.0']
+    transpilePackages: ['@zctc/edms-lrs-oauth1.0', '@zctc/edms-oauth2.0-npm']
 }
 
 module.exports = nextConfig

@@ -1,6 +1,11 @@
 "use client"
 import React from "react"
 import PassWord from "./components/PassWord"
+import { Metadata } from "next"
+
+// export const metadata: Metadata = {
+//   title: "这是login",
+// }
 
 export default function Login() {
   return (

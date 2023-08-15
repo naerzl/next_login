@@ -5,6 +5,7 @@ import { OauthObj } from "@/libs/init_oauth"
 import { getCookie, setCookie } from "@/libs/cookies"
 import { ACCESSTOKEN } from "@zctc/edms-lrs-oauth1.0"
 import { OAuth1RequestDataType, OAuth1ThreeDataType } from "@zctc/edms-lrs-oauth1.0/types"
+import { OAUTH2_PATH_FROM } from "@/libs/const"
 
 function Auth() {
   const router = useRouter()
@@ -28,7 +29,7 @@ function Auth() {
       setCookie(ACCESSTOKEN, res)
       router.push(getCookie("_next") || "/login")
     } catch (error) {
-      const path = getCookie(process.env.NEXT_PUBLIC_OAUTH2_PATHNAME_FROM as string) as string
+      const path = getCookie(OAUTH2_PATH_FROM) as string
       router.push(path)
     }
   }, [])

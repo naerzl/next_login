@@ -5,6 +5,7 @@ const UserNameInput = React.forwardRef(
   (props: { field?: any; trigger?: any; errors?: any; ErrorMessage?: any }, ref) => {
     const { trigger, field, errors, ErrorMessage } = props
     const handleBlur = () => {
+      console.log(field)
       trigger(field.name)
     }
     return (

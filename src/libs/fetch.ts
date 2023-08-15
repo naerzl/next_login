@@ -2,9 +2,8 @@ import { FetchParams } from "@/types/api"
 import { getCookie, setCookie } from "./cookies"
 import { formDataInstance, lrsOAuth2Instance } from "./init_oauth"
 import { StatusCodes } from "http-status-codes"
-import { STATUS_SUCCESS } from "./const"
+import { OAUTH2_ACCESS_TOKEN, STATUS_SUCCESS } from "./const"
 
-const OAUTH2_ACCESS_TOKEN = process.env.NEXT_PUBLIC_OAUTH2_ACCESS_TOKEN as string
 // 拼接接口地址
 export const getV1BaseURL = (url: string): string => {
   return process.env.NEXT_PUBLIC_API_BASE_URL + url
@@ -19,7 +18,7 @@ interface FetcherOptions<T> {
 }
 
 //
-export function fetcher<T>(params: FetcherOptions<T>) {
+export async function fetcher<T>(params: FetcherOptions<T>) {
   let {
     url,
     data: { arg },
@@ -27,10 +26,11 @@ export function fetcher<T>(params: FetcherOptions<T>) {
   } = params
 
   const authCodeOfCookie =
-    getCookie(OAUTH2_ACCESS_TOKEN as string) &&
-    JSON.parse(getCookie(OAUTH2_ACCESS_TOKEN as string) as string)
+    getCookie(OAUTH2_ACCESS_TOKEN) && JSON.parse(getCookie(OAUTH2_ACCESS_TOKEN) as string)
   url = getV1BaseURL(url)
-  let body = null
+
+  let body: any = null
+
   switch (method) {
     case "post":
     case "put":
@@ -42,28 +42,32 @@ export function fetcher<T>(params: FetcherOptions<T>) {
     default:
       url += "?" + new URLSearchParams(arg as Record<string, string>).toString()
   }
-  return fetch(`${url}`, {
-    method: method || "get",
-    body: body,
-    headers: authCodeOfCookie
-      ? {
-          Authorization: `Bearer ${authCodeOfCookie.access_token}`,
-        }
-      : undefined,
-  }).then(async (res) => {
-    if (res.status == StatusCodes.UNAUTHORIZED) {
-      lrsOAuth2Instance
-        .lrsOAuth2rRefreshToken(getV1BaseURL("/refresh"), `Bearer ${authCodeOfCookie.access_token}`)
-        .then((res) => res.json())
-        .then((res) => {
-          if (res.code !== 2000) return
-          setCookie(process.env.NEXT_PUBLIC_OAUTH2_ACCESS_TOKEN as string, JSON.stringify(res.data))
-        })
+
+  let idStatusOk = true
+  const ufetch = () =>
+    fetch(`${url}`, {
+      method: method || "get",
+      body,
+      headers: authCodeOfCookie
+        ? {
+            Authorization: `Bearer ${authCodeOfCookie.access_token}`,
+          }
+        : undefined,
+    })
+  const result = ufetch().then(async (fetchRes) => {
+    if (fetchRes.status == StatusCodes.UNAUTHORIZED) {
+      idStatusOk = false
+      const oauth2Res = await lrsOAuth2Instance.lrsOAuth2rRefreshToken(
+        getV1BaseURL("/refresh"),
+        `Bearer ${authCodeOfCookie.access_token}`,
+      )
+      if (oauth2Res.status == StatusCodes.UNAUTHORIZED) throw new Error("401")
+      const oauth2Result = await oauth2Res.json()
+      if (oauth2Result.code !== STATUS_SUCCESS) throw new Error("500")
+      setCookie(OAUTH2_ACCESS_TOKEN, oauth2Result.data)
     }
-    let result = await res.json()
-    if (result.code !== STATUS_SUCCESS) {
-    } else {
-      return result
-    }
+    return fetchRes
   })
+
+  return (idStatusOk ? result : ufetch()).then((res) => res.json())
 }
