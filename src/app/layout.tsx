@@ -1,5 +1,3 @@
-"use client"
-// import { dynamicsSetRemByMobile } from "@/libs/methods"
 import "./globals.scss"
 import { Inter } from "next/font/google"
 
