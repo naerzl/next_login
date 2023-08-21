@@ -63,44 +63,52 @@ export default function UsePhoneCode() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Controller
-        name="phone"
-        control={control}
-        rules={{
-          required: "请输入手机号",
-          pattern: {
-            value: REGEXP_PHONE,
-            message: "手机号格式不正确",
-          },
-        }}
-        render={({ field }) => (
-          <UserNameInput
-            field={field}
-            trigger={trigger}
-            errors={errors.phone}
-            ErrorMessage={() => (
-              <ErrorMessage
-                errors={errors}
-                name="phone"
-                render={({ message }) => <p className="text-railway_error text-sm">{message}</p>}
-              />
-            )}
-          />
-        )}
-      />
-      <Controller
-        rules={{ required: true }}
-        name="code"
-        control={control}
-        render={({ field }) => (
-          <VerifyCodeInput
-            field={field}
-            getValues={getValues}
-            trigger={trigger}
-            errors={errors.code}
-          />
-        )}
-      />
+      <div className="relative pb-3.5">
+        <Controller
+          name="phone"
+          control={control}
+          rules={{
+            required: "请输入手机号",
+            pattern: {
+              value: REGEXP_PHONE,
+              message: "手机号格式不正确",
+            },
+          }}
+          render={({ field }) => (
+            <UserNameInput
+              field={field}
+              trigger={trigger}
+              errors={errors.phone}
+              ErrorMessage={() => (
+                <ErrorMessage
+                  errors={errors}
+                  name="phone"
+                  render={({ message }) => (
+                    <p className="text-railway_error text-sm absolute -bottom-5 left-0">
+                      {message}
+                    </p>
+                  )}
+                />
+              )}
+            />
+          )}
+        />
+      </div>
+      <div className="relative pb-3.5">
+        <Controller
+          rules={{ required: true }}
+          name="code"
+          control={control}
+          render={({ field }) => (
+            <VerifyCodeInput
+              field={field}
+              getValues={getValues}
+              trigger={trigger}
+              errors={errors.code}
+            />
+          )}
+        />
+      </div>
 
       <Button variant="contained" type="submit" className="bg-railway_blue h-10" fullWidth>
         登录

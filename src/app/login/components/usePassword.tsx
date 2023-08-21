@@ -44,7 +44,7 @@ export default function UsePassword() {
   const { run: onSubmit }: { run: SubmitHandler<IFormInput> } = useDebounce(
     async (values: IFormInput) => {
       // 判断是否勾选协议
-      if (values.protocol !== true) return
+      if (values.protocol !== true) return message.error("请勾选协议")
 
       // 判断路径查询参数有没有
       if (search.has("redirect_uri")) {
@@ -74,52 +74,64 @@ export default function UsePassword() {
   )
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Controller
-        name="username"
-        control={control}
-        rules={{
-          required: "请输入手机号",
-          pattern: {
-            value: REGEXP_PHONE,
-            message: "手机号格式不正确",
-          },
-        }}
-        render={({ field }) => (
-          <UserNameInput
-            field={field}
-            trigger={trigger}
-            errors={errors.username}
-            ErrorMessage={() => (
-              <ErrorMessage
-                errors={errors}
-                name="username"
-                render={({ message }) => <p className="text-railway_error text-sm">{message}</p>}
-              />
-            )}
-          />
-        )}
-      />
-      <Controller
-        rules={{ required: "请输入密码" }}
-        name="password"
-        control={control}
-        render={({ field }) => (
-          <PasswordInput
-            field={field}
-            trigger={trigger}
-            errors={errors.password}
-            id="login-password"
-            ErrorMessage={() => (
-              <ErrorMessage
-                errors={errors}
-                name="password"
-                render={({ message }) => <p className="text-railway_error text-sm">{message}</p>}
-              />
-            )}
-          />
-        )}
-      />
-      <div className="flex justify-between text-sm text-railway_blue my-1">
+      <div className="relative pb-3.5">
+        <Controller
+          name="username"
+          control={control}
+          rules={{
+            required: "请输入手机号",
+            pattern: {
+              value: REGEXP_PHONE,
+              message: "手机号格式不正确",
+            },
+          }}
+          render={({ field }) => (
+            <UserNameInput
+              field={field}
+              trigger={trigger}
+              errors={errors.username}
+              ErrorMessage={() => (
+                <ErrorMessage
+                  errors={errors}
+                  name="username"
+                  render={({ message }) => (
+                    <p className="text-railway_error text-sm absolute -bottom-5 left-0">
+                      {message}
+                    </p>
+                  )}
+                />
+              )}
+            />
+          )}
+        />
+      </div>
+      <div className="relative pb-3.5">
+        <Controller
+          rules={{ required: "请输入密码" }}
+          name="password"
+          control={control}
+          render={({ field }) => (
+            <PasswordInput
+              field={field}
+              trigger={trigger}
+              errors={errors.password}
+              id="login-password"
+              ErrorMessage={() => (
+                <ErrorMessage
+                  errors={errors}
+                  name="password"
+                  render={({ message }) => (
+                    <p className="text-railway_error text-sm absolute -bottom-5 left-0">
+                      {message}
+                    </p>
+                  )}
+                />
+              )}
+            />
+          )}
+        />
+      </div>
+      <div className="flex justify-between text-sm text-railway_blue">
         <Link href="/forgotpassword">忘记密码?</Link>
       </div>
       <Controller
@@ -129,8 +141,8 @@ export default function UsePassword() {
         render={({ field }) => {
           return (
             <>
-              <div className="mb-2">
-                <Checkbox {...field} id="checkbox" />
+              <div className="text-sm flex items-center mt-2 pb-5 relative">
+                <Checkbox {...field} id="checkbox" size="small" className="p-0" />
                 <span className="text-railway_gray">
                   我同意
                   <Link href="/term-of-service" className="hover:text-railway_blue">
@@ -141,12 +153,12 @@ export default function UsePassword() {
                     《隐私政策》
                   </Link>
                 </span>
+                {!field.value && (
+                  <FormHelperText error id="checkbox" className="absolute bottom-0">
+                    请勾选服务条款和隐私政策
+                  </FormHelperText>
+                )}
               </div>
-              {!field.value && (
-                <FormHelperText error id="checkbox">
-                  请勾选服务条款和隐私政策
-                </FormHelperText>
-              )}
             </>
           )
         }}

@@ -9,13 +9,23 @@ import message from "antd-message-react"
 
 const SECONDS = 60
 const VerifyCodeInput = React.forwardRef(
-  (props: { field?: any; trigger?: any; errors?: any; getValues?: any; callback?: any }, ref) => {
+  (
+    props: {
+      field?: any
+      trigger?: any
+      errors?: any
+      getValues?: any
+      callback?: any
+      ErrorMessage: any
+    },
+    ref,
+  ) => {
     const { trigger: apiTrigger } = useSWRMutation(
       "/user/forgot/password/code",
       reqForgotPasswordCode,
     )
     const { count, start } = useCountDown(SECONDS, () => {})
-    const { field, getValues, errors, trigger } = props
+    const { field, getValues, errors, trigger, ErrorMessage } = props
 
     // 处理发送验证码事件
     const { run: handleClick } = useDebounce(() => {
@@ -35,25 +45,28 @@ const VerifyCodeInput = React.forwardRef(
       trigger(field.name)
     }
     return (
-      <div className=" flex justify-evenly mb-4">
-        <TextField
-          {...field}
-          label="验证码"
-          variant="outlined"
-          className="flex-1"
-          ref={ref}
-          error={errors ? true : false}
-          helperText={errors ? "请正确填写验证码" : null}
-          onBlur={handleBlur}
-        />
-        <Button
-          variant="outlined"
-          className="h-14 w-1/4 ml-4"
-          onClick={handleClick}
-          disabled={count !== SECONDS}>
-          {count === SECONDS ? "发送验证码" : count}
-        </Button>
-      </div>
+      <>
+        <div className=" flex justify-evenly mb-4">
+          <TextField
+            {...field}
+            label="验证码"
+            variant="outlined"
+            className="flex-1"
+            ref={ref}
+            error={errors ? true : false}
+            // helperText={errors ? "请正确填写验证码" : null}
+            onBlur={handleBlur}
+          />
+          <Button
+            variant="outlined"
+            className="h-14 w-1/4 ml-4"
+            onClick={handleClick}
+            disabled={count !== SECONDS}>
+            {count === SECONDS ? "发送验证码" : count}
+          </Button>
+        </div>
+        {ErrorMessage && ErrorMessage()}
+      </>
     )
   },
 )

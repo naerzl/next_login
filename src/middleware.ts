@@ -3,7 +3,6 @@ import { NextRequest } from "next/server"
 import { OauthObj } from "./libs/init_oauth"
 import { ACCESSTOKEN } from "@zctc/edms-lrs-oauth1.0"
 import { OAuth1FirstDataType, OAuth1RequestDataType } from "@zctc/edms-lrs-oauth1.0/types"
-// import { OAUTH2_PATH_FROM } from "./libs/const"
 
 // 初始化Oauth
 async function oAuthInitiate(request: NextRequest) {
