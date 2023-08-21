@@ -32,7 +32,7 @@ build-job:       # This job runs in the build stage, which runs first.
     - npm run build
     - tar cf out.tar .next
     - scp out.tar root@121.37.83.16:/www/edms-oauth
-    - ssh root@121.37.83.16 "cp -rf /www/edms-oauth/out /www/edms-oauth/out.old && tar -xvf /www/edms-oauth/out.tar -C /www/edms-oauth"
+    - ssh root@121.37.83.16 "rm -rf /www/edms-oauth/.next && tar -xvf /www/edms-oauth/out.tar -C /www/edms-oauth"
     - echo "Compiling the code..."
     - echo "Compile complete."
 
