@@ -1,3 +1,4 @@
+"use client"
 import React from "react"
 import PassWord from "./components/PassWord"
 import Banner from "@/components/Banner"
