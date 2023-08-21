@@ -44,7 +44,7 @@ export default function Home() {
           <input
             type="text"
             name="description"
-            value={process.env.NExt_PUBLIC_OAUTH_DESCRIPTION}
+            value={process.env.NEXT_PUBLIC_OAUTH_DESCRIPTION}
             readOnly
           />
           <input type="text" name="scopes" value="statements/write" readOnly />
