@@ -35,7 +35,8 @@ async function oAuthInitiate(request: NextRequest) {
 
 export async function middleware(request: NextRequest) {
   // 初始化Oauth
-  return oAuthInitiate(request)
+  // return oAuthInitiate(request)
+  return
 }
 
 export const config = {
