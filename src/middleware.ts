@@ -13,7 +13,7 @@ async function oAuthInitiate(request: NextRequest) {
       url: process.env.NEXT_PUBLIC_OAUTH_INITIATE as string,
       method: "get",
       data: {
-        oauth_callback: `${process.env.NEXT_PUBLIC_OAUTH_ORIGIN}:${request.nextUrl.port}${process.env.NEXT_PUBLIC_OAUTH_PATH}`,
+        oauth_callback: `${process.env.NEXT_PUBLIC_OAUTH_ORIGIN}${process.env.NEXT_PUBLIC_OAUTH_PATH}`,
       },
     }
     try {
