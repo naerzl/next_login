@@ -1,7 +1,7 @@
 import React from "react"
 
 function Banner() {
-  const [imgIndex, setImgIndex] = React.useState(Math.floor(new Date().getHours() / 6))
+  const [imgIndex, setImgIndex] = React.useState(0)
 
   const [imgList, setImageList] = React.useState([
     {
@@ -22,25 +22,28 @@ function Banner() {
     },
   ])
 
-  let timer2 = React.useRef(-1)
+  // let timer2 = React.useRef(-1)
   React.useEffect(() => {
-    timer2.current = window.setInterval(() => {
-      const currentDate = new Date()
+    // timer2.current = window.setInterval(() => {
+    const currentDate = new Date()
 
-      setImgIndex(Math.floor(currentDate.getHours() / 6))
-      if (
-        currentDate.getHours() == 0 &&
-        currentDate.getMinutes() == 0 &&
-        currentDate.getSeconds() == 0
-      ) {
-        setImageList((pre) =>
-          pre.map((item) => ({ ...item, sort: Math.random() })).sort((a, b) => a.sort - b.sort),
-        )
-      }
-    }, 1000)
-    return () => {
-      clearInterval(timer2.current)
+    //   setImgIndex(Math.floor(currentDate.getHours() / 6))
+    if (
+      currentDate.getHours() == 0 &&
+      currentDate.getMinutes() == 0 &&
+      currentDate.getSeconds() == 0
+    ) {
+      setImageList((pre) =>
+        pre.map((item) => ({ ...item, sort: Math.random() })).sort((a, b) => a.sort - b.sort),
+      )
     }
+    // }, 1000)
+
+    setImgIndex(currentDate.getHours() % 4)
+    // return currentDate.getHours() % 4
+    // return () => {
+    //   clearInterval(timer2.current)
+    // }
   }, [imgIndex])
 
   return (
