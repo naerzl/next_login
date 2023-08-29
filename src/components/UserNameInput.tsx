@@ -15,6 +15,7 @@ const UserNameInput = React.forwardRef(
           ref={ref}
           id="outlined-basic"
           fullWidth
+          autoFocus
           label="账号"
           variant="outlined"
           error={errors ? true : false}

@@ -1,7 +1,7 @@
 import React from "react"
 
 function Banner() {
-  const [imgIndex, setImgIndex] = React.useState(0)
+  const [imgIndex, setImgIndex] = React.useState(new Date().getHours() % 4)
 
   const [imgList, setImageList] = React.useState([
     {
@@ -26,6 +26,8 @@ function Banner() {
   React.useEffect(() => {
     // timer2.current = window.setInterval(() => {
     const currentDate = new Date()
+
+    console.log(currentDate)
 
     //   setImgIndex(Math.floor(currentDate.getHours() / 6))
     if (

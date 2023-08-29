@@ -28,6 +28,7 @@ const PasswordInput = React.forwardRef(
           error={errors ? true : false}
           ref={ref}
           onBlur={handleBlur}
+          autoFocus
           endAdornment={
             <InputAdornment position="end">
               <IconButton
