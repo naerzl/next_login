@@ -5,7 +5,6 @@ const UserNameInput = React.forwardRef(
   (props: { field?: any; trigger?: any; errors?: any; ErrorMessage?: any }, ref) => {
     const { trigger, field, errors, ErrorMessage } = props
     const handleBlur = () => {
-      console.log(field)
       trigger(field.name)
     }
     return (
@@ -15,7 +14,7 @@ const UserNameInput = React.forwardRef(
           ref={ref}
           id="outlined-basic"
           fullWidth
-          autoFocus
+          autoComplete="off"
           label="账号"
           variant="outlined"
           error={errors ? true : false}

@@ -28,7 +28,7 @@ const PasswordInput = React.forwardRef(
           error={errors ? true : false}
           ref={ref}
           onBlur={handleBlur}
-          autoFocus
+          autoComplete="new-password"
           endAdornment={
             <InputAdornment position="end">
               <IconButton
