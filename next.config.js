@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    output: 'standalone',
     trailingSlash: true,
     webpack: (config) => {
         config.resolve.extensionAlias = {
