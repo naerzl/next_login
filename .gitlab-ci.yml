@@ -30,7 +30,7 @@ build-job:       # This job runs in the build stage, which runs first.
     - npm config set registry https://registry.npm.taobao.org
     - npm i
     - npm run build
-    - cp -rf ./public ./standalone/ && cd ./.next && cp -rf ./static ./standalone/.next/ && cd ./standalone && tar cf oahtu2.tar ./* .[!.]*
+    - cp -rf ./public ./.next/standalone/ && cd ./.next && cp -rf ./static ./standalone/.next/ && cd ./standalone && tar cf oahtu2.tar ./* .[!.]*
     - scp oahtu2.tar root@121.37.83.16:/www
     - echo "Application successfully build."
 
