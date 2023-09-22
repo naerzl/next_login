@@ -61,13 +61,13 @@ export default function UsePassword() {
         const res = await loginTrigger(searchObj)
         if (res.code !== STATUS_SUCCESS) return message.error(res.msg)
         message.success("登录成功")
-        const statements: XapiType = new XapiStatementsClass({
-          actor:
-            process.env.NEXT_PUBLIC_OAUTH_ORIGIN + "/user/" + "c25b6963edb8488883d7d8441c0fb549",
-          object: "http://activitystrea.ms/schema/1.0/application",
-          verb: LrsXapiVerbs.AUTHORIZE,
-        })
-        oAuth1SendStatement(statements)
+        // const statements: XapiType = new XapiStatementsClass({
+        //   actor:
+        //     process.env.NEXT_PUBLIC_OAUTH_ORIGIN + "/user/" + "c25b6963edb8488883d7d8441c0fb549",
+        //   object: "http://activitystrea.ms/schema/1.0/application",
+        //   verb: LrsXapiVerbs.AUTHORIZE,
+        // })
+        // oAuth1SendStatement(statements)
         router.push(res.data.location + `&is_first_login=${res.data.is_first_login}`)
       }
     },

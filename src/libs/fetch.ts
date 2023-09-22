@@ -25,8 +25,7 @@ export async function fetcher<T>(params: FetcherOptions<T>) {
     method,
   } = params
 
-  const authCodeOfCookie =
-    getCookie(OAUTH2_ACCESS_TOKEN) && JSON.parse(getCookie(OAUTH2_ACCESS_TOKEN) as string)
+  const authCodeOfCookie = getCookie(OAUTH2_ACCESS_TOKEN)
   url = getV1BaseURL(url)
 
   let body: any = null
@@ -50,7 +49,7 @@ export async function fetcher<T>(params: FetcherOptions<T>) {
       body,
       headers: authCodeOfCookie
         ? {
-            Authorization: `Bearer ${authCodeOfCookie.access_token}`,
+            Authorization: `Bearer ${authCodeOfCookie}`,
           }
         : undefined,
     })
@@ -59,12 +58,12 @@ export async function fetcher<T>(params: FetcherOptions<T>) {
       idStatusOk = false
       const oauth2Res = await lrsOAuth2Instance.lrsOAuth2rRefreshToken(
         getV1BaseURL("/refresh"),
-        `Bearer ${authCodeOfCookie.access_token}`,
+        `Bearer ${authCodeOfCookie}`,
       )
       if (oauth2Res.status == StatusCodes.UNAUTHORIZED) throw new Error("401")
       const oauth2Result = await oauth2Res.json()
       if (oauth2Result.code !== STATUS_SUCCESS) throw new Error("500")
-      setCookie(OAUTH2_ACCESS_TOKEN, oauth2Result.data)
+      setCookie(OAUTH2_ACCESS_TOKEN, oauth2Result.data.access_token)
     }
     return fetchRes
   })
