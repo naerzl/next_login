@@ -25,10 +25,7 @@ const VerifyCodeInput = React.forwardRef(
         // 开始计时
         start()
         // 调佣api
-        apiTrigger({ phone: getValues("phone") }).then((res) => {
-          if (res.code !== STATUS_SUCCESS) return message.error("操作失败")
-          console.log(`code=${res.data.code}`)
-        })
+        apiTrigger({ phone: getValues("phone") })
       }
     })
 
@@ -43,7 +40,7 @@ const VerifyCodeInput = React.forwardRef(
           variant="outlined"
           className="flex-1"
           ref={ref}
-          error={errors ? true : false}
+          error={!!errors}
           helperText={errors ? "请正确填写验证码" : null}
           onBlur={handleBlur}
         />

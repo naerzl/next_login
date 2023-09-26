@@ -38,8 +38,8 @@ export default function UsePhoneCode() {
   const { run: onSubmit }: { run: SubmitHandler<ReqForgotPhoneCodeParams> } = useDebounce(
     async (values: ReqForgotPhoneCodeParams) => {
       apiTrigger(values).then((res) => {
-        if (res.code !== STATUS_SUCCESS) return message.error("操作失败")
-        message.success("操作成功")
+          console.log(res);
+          message.success("操作成功")
         router.back()
       })
     },
