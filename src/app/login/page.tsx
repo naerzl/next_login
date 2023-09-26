@@ -5,8 +5,6 @@ import Banner from "@/components/Banner"
 
 // export const metadata: Metadata = {
 //   title: "这是login 111" ,
-
-
 // }
 
 export default function Login() {

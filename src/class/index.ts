@@ -1,4 +1,4 @@
-import { XapiType } from "@/types/authorization"
+
 import { LoginParamsType, LoginWithPhoneParamsType } from "./index.d"
 
 // 登录基类

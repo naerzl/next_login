@@ -4,12 +4,13 @@ import useDebounce from "@/hooks/useDebounce"
 import { ReqChangePasswordParams } from "@/types/api"
 import PasswordInput from "@/components/PasswordInput"
 import { Button } from "@mui/material"
-import { useRouter } from "next/navigation"
-import { getCookie } from "@/libs/cookies"
-import { OAUTH2_PATH_FROM, REGEXP_PASSWORD, STATUS_SUCCESS } from "@/libs/const"
+import {useRouter, useSearchParams} from "next/navigation"
+import {getCookie, setCookie} from "@/libs/cookies"
+import {OAUTH2_ACCESS_TOKEN, OAUTH2_PATH_FROM, REGEXP_PASSWORD, STATUS_SUCCESS} from "@/libs/const"
 import useSWRMutaion from "swr/mutation"
 import { ErrorMessage } from "@hookform/error-message"
 import message from "antd-message-react"
+import React from "react";
 
 export default function UsePassword() {
   const {
@@ -29,6 +30,14 @@ export default function UsePassword() {
     reqChangePasswordWidthPwd,
   )
   const router = useRouter()
+
+    const searchParams = useSearchParams()
+
+    React.useEffect(()=>{
+        if(searchParams.get('t')){
+         setCookie(OAUTH2_ACCESS_TOKEN,searchParams.get('t') as string)
+        }
+    },[searchParams])
 
   // 加上防抖的提交事件
   const { run: onSubmit }: { run: SubmitHandler<ReqChangePasswordParams> } = useDebounce(
