@@ -39,7 +39,7 @@ export default function UsePassword() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="relative pb-3.5">
+      <div className="relative pb-3.5 phone:mb-4">
         <Controller
           name="raw_password"
           control={control}
@@ -57,7 +57,9 @@ export default function UsePassword() {
                   errors={errors}
                   name="raw_password"
                   render={({ message }) => (
-                    <p className="text-railway_error text-sm absolute -bottom-5">{message}</p>
+                    <p className="text-railway_error text-sm absolute -bottom-5 phone:-bottom-6">
+                      {message}
+                    </p>
                   )}
                 />
               )}
@@ -65,7 +67,7 @@ export default function UsePassword() {
           )}
         />
       </div>
-      <div className="relative pb-3.5">
+      <div className="relative pb-3.5 phone:mb-4">
         <Controller
           rules={{
             required: "请输入密码",
@@ -87,7 +89,9 @@ export default function UsePassword() {
                   errors={errors}
                   name="password"
                   render={({ message }) => (
-                    <p className="text-railway_error text-sm absolute -bottom-5">{message}</p>
+                    <p className="text-railway_error text-sm absolute -bottom-5 phone:-bottom-6">
+                      {message}
+                    </p>
                   )}
                 />
               )}
@@ -95,7 +99,7 @@ export default function UsePassword() {
           )}
         />
       </div>
-      <div className="relative pb-3.5">
+      <div className="relative pb-3.5 phone:mb-4">
         <Controller
           rules={{
             validate: {
@@ -117,7 +121,9 @@ export default function UsePassword() {
                   errors={errors}
                   name="checked_password"
                   render={({ message }) => (
-                    <p className="text-railway_error text-sm absolute -bottom-5">{message}</p>
+                    <p className="text-railway_error text-sm absolute -bottom-5 phone:-bottom-6">
+                      {message}
+                    </p>
                   )}
                 />
               )}
@@ -125,7 +131,11 @@ export default function UsePassword() {
           )}
         />
       </div>
-      <Button variant="contained" type="submit" className="bg-railway_blue h-10" fullWidth>
+      <Button
+        variant="contained"
+        type="submit"
+        className="bg-railway_blue h-10 phone:h-14"
+        fullWidth>
         登录
       </Button>
     </form>

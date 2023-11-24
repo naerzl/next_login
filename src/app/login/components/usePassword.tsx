@@ -1,5 +1,5 @@
 import { useForm, SubmitHandler, Controller } from "react-hook-form"
-import React from "react"
+import React, { Suspense } from "react"
 import { Button, Checkbox, FormHelperText } from "@mui/material"
 import useDebounce from "@/hooks/useDebounce"
 import { useRouter, useSearchParams } from "next/navigation"
@@ -8,14 +8,17 @@ import { reqLoginWithPassword } from "../api"
 import PasswordInput from "@/components/PasswordInput"
 import UserNameInput from "@/components/UserNameInput"
 import Link from "next/link"
-import { REGEXP_PHONE, STATUS_SUCCESS } from "@/libs/const"
+import {
+  LOGIN_ACCOUNT,
+  LOGIN_PASSWORD,
+  LOGIN_PHONE,
+  REGEXP_PHONE,
+  STATUS_SUCCESS,
+} from "@/libs/const"
 import useSWRMutaion from "swr/mutation"
 import { ErrorMessage } from "@hookform/error-message"
 import message from "antd-message-react"
 import "antd-message-react/dist/index.css"
-import { XapiType } from "@/types/authorization"
-import { oAuth1SendStatement } from "@/libs/methods"
-import { LrsXapiVerbs, XapiStatementsClass } from "@zctc/edms-lrs-oauth1.0/lrs-xapi"
 
 interface IFormInput {
   username: string
@@ -29,6 +32,8 @@ export default function UsePassword() {
     handleSubmit,
     formState: { errors },
     trigger,
+    getValues,
+    setValue,
   } = useForm({
     defaultValues: {
       username: "",
@@ -43,38 +48,56 @@ export default function UsePassword() {
 
   const { run: onSubmit }: { run: SubmitHandler<IFormInput> } = useDebounce(
     async (values: IFormInput) => {
-      // 判断是否勾选协议
-      if (values.protocol !== true) return message.error("请勾选协议")
+      try {
+        // 判断是否勾选协议
+        if (values.protocol !== true) return message.error("请勾选协议")
 
-      // 判断路径查询参数有没有
-      if (search.has("redirect_uri")) {
-        let searchObj = new LoginWithPasswordClass({
-          password: values.password,
-          username: values.username,
-        })
+        // 判断路径查询参数有没有
+        if (search.has("redirect_uri")) {
+          let searchObj = new LoginWithPasswordClass({
+            password: values.password,
+            username: values.username,
+          })
 
-        search.forEach((value, key) => {
-          // @ts-ignore
-          searchObj[key] = value
-        })
-        // 调用登录SWR接口
-        const res = await loginTrigger(searchObj)
-        if (res.code !== STATUS_SUCCESS) return message.error(res.msg)
-        message.success("登录成功")
-        // const statements: XapiType = new XapiStatementsClass({
-        //   actor:
-        //     process.env.NEXT_PUBLIC_OAUTH_ORIGIN + "/user/" + "c25b6963edb8488883d7d8441c0fb549",
-        //   object: "http://activitystrea.ms/schema/1.0/application",
-        //   verb: LrsXapiVerbs.AUTHORIZE,
-        // })
-        // oAuth1SendStatement(statements)
-        router.push(res.data.location + `&is_first_login=${res.data.is_first_login}`)
+          search.forEach((value, key) => {
+            // @ts-ignore
+            searchObj[key] = value
+          })
+          // 调用登录SWR接口
+          const res = await loginTrigger(searchObj)
+          if (res.code !== STATUS_SUCCESS) return message.error(res.msg)
+          console.log(res.data.location)
+          message.success("登录成功")
+          localStorage.removeItem(LOGIN_ACCOUNT)
+          localStorage.removeItem(LOGIN_PASSWORD)
+          localStorage.removeItem(LOGIN_PHONE)
+          // const statements: XapiType = new XapiStatementsClass({
+          //   actor:
+          //     process.env.NEXT_PUBLIC_OAUTH_ORIGIN + "/user/" + "c25b6963edb8488883d7d8441c0fb549",
+          //   object: "http://activitystrea.ms/schema/1.0/application",
+          //   verb: LrsXapiVerbs.AUTHORIZE,
+          // })
+          // oAuth1SendStatement(statements)
+          router.push(res.data.location + `&is_first_login=${res.data.is_first_login}`)
+        }
+      } catch (e) {
+        console.log(e)
       }
     },
   )
+
+  React.useEffect(() => {
+    setValue("username", localStorage.getItem(LOGIN_ACCOUNT) ?? "")
+    setValue("password", localStorage.getItem(LOGIN_PASSWORD) ?? "")
+    return () => {
+      localStorage.setItem(LOGIN_ACCOUNT, getValues("username"))
+      localStorage.setItem(LOGIN_PASSWORD, getValues("password"))
+    }
+  }, [])
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="relative pb-3.5">
+      <div className="relative pb-3.5 phone:pb-10">
         <Controller
           name="username"
           control={control}
@@ -95,7 +118,7 @@ export default function UsePassword() {
                   errors={errors}
                   name="username"
                   render={({ message }) => (
-                    <p className="text-railway_error text-sm absolute -bottom-5 left-0">
+                    <p className="text-railway_error text-sm absolute -bottom-5 left-0 phone:-bottom-6 phone:text-base">
                       {message}
                     </p>
                   )}
@@ -105,7 +128,7 @@ export default function UsePassword() {
           )}
         />
       </div>
-      <div className="relative pb-3.5">
+      <div className="relative pb-3.5 phone:pb-10">
         <Controller
           rules={{ required: "请输入密码" }}
           name="password"
@@ -121,7 +144,7 @@ export default function UsePassword() {
                   errors={errors}
                   name="password"
                   render={({ message }) => (
-                    <p className="text-railway_error text-sm absolute -bottom-5 left-0">
+                    <p className="text-railway_error text-sm absolute -bottom-5 left-0 phone:-bottom-6 phone:text-base">
                       {message}
                     </p>
                   )}
@@ -131,7 +154,7 @@ export default function UsePassword() {
           )}
         />
       </div>
-      <div className="flex justify-between text-sm text-railway_blue">
+      <div className="flex justify-between text-sm text-railway_blue phone:text-2xl">
         <Link href="/forgotpassword">忘记密码?</Link>
       </div>
       <Controller
@@ -141,7 +164,7 @@ export default function UsePassword() {
         render={({ field }) => {
           return (
             <>
-              <div className="text-sm flex items-center mt-2 pb-5 relative">
+              <div className="text-sm flex items-center mt-2 pb-5 relative phone:mt-6 phone:text-2xl ">
                 <Checkbox {...field} id="checkbox" size="small" className="p-0" />
                 <span className="text-railway_gray">
                   我同意
@@ -163,7 +186,11 @@ export default function UsePassword() {
           )
         }}
       />
-      <Button variant="contained" type="submit" className="bg-railway_blue h-10" fullWidth>
+      <Button
+        variant="contained"
+        type="submit"
+        className="bg-railway_blue h-10 phone:h-14 phone:text-xl"
+        fullWidth>
         登录
       </Button>
     </form>

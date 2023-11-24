@@ -7,13 +7,16 @@ import { LoginWithPhoneClass } from "@/class"
 import { reqLoginWithPhone } from "../api"
 import UserNameInput from "@/components/UserNameInput"
 import VerifyCodeInput from "@/app/login/components/VerifyCodeInput"
-import { REGEXP_PHONE, STATUS_SUCCESS } from "@/libs/const"
+import {
+  LOGIN_ACCOUNT,
+  LOGIN_PASSWORD,
+  LOGIN_PHONE,
+  REGEXP_PHONE,
+  STATUS_SUCCESS,
+} from "@/libs/const"
 import useSWRMutation from "swr/mutation"
 import { ErrorMessage } from "@hookform/error-message"
 import message from "antd-message-react"
-import { XapiType } from "@/types/authorization"
-import { oAuth1SendStatement } from "@/libs/methods"
-import { LrsXapiVerbs, XapiStatementsClass } from "@zctc/edms-lrs-oauth1.0/lrs-xapi"
 
 interface IFormInput {
   phone: string
@@ -27,7 +30,8 @@ export default function UsePhoneCode() {
     getValues,
     trigger,
     formState: { errors },
-  } = useForm({
+    setValue,
+  } = useForm<IFormInput>({
     defaultValues: {
       phone: "",
       code: "",
@@ -49,6 +53,9 @@ export default function UsePhoneCode() {
       LoginWithPhoneTrigger(searchObj).then((res) => {
         if (res.code !== STATUS_SUCCESS) return message.error("登录失败")
         message.success("登录成功")
+        localStorage.removeItem(LOGIN_ACCOUNT)
+        localStorage.removeItem(LOGIN_PASSWORD)
+        localStorage.removeItem(LOGIN_PHONE)
         // const statements: XapiType = new XapiStatementsClass({
         //   actor:
         //     process.env.NEXT_PUBLIC_OAUTH_ORIGIN + "/user/" + "c25b6963edb8488883d7d8441c0fb549",
@@ -61,9 +68,16 @@ export default function UsePhoneCode() {
     }
   })
 
+  React.useEffect(() => {
+    setValue("phone", localStorage.getItem(LOGIN_PHONE) ?? "")
+    return () => {
+      localStorage.setItem(LOGIN_PHONE, getValues("phone"))
+    }
+  }, [])
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="relative pb-3.5">
+      <div className="relative pb-3.5 phone:pb-10">
         <Controller
           name="phone"
           control={control}
@@ -84,7 +98,7 @@ export default function UsePhoneCode() {
                   errors={errors}
                   name="phone"
                   render={({ message }) => (
-                    <p className="text-railway_error text-sm absolute -bottom-5 left-0">
+                    <p className="text-railway_error text-sm absolute -bottom-5 left-0 phone:-bottom-6">
                       {message}
                     </p>
                   )}
@@ -94,7 +108,7 @@ export default function UsePhoneCode() {
           )}
         />
       </div>
-      <div className="relative pb-3.5">
+      <div className="relative pb-3.5 phone:mb-16 mb-6">
         <Controller
           rules={{ required: true }}
           name="code"
@@ -110,7 +124,11 @@ export default function UsePhoneCode() {
         />
       </div>
 
-      <Button variant="contained" type="submit" className="bg-railway_blue h-10" fullWidth>
+      <Button
+        variant="contained"
+        type="submit"
+        className="bg-railway_blue h-10 phone:h-14"
+        fullWidth>
         登录
       </Button>
     </form>

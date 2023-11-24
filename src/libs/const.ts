@@ -12,3 +12,9 @@ export const STATUS_SUCCESS = 2000
 export const OAUTH2_ACCESS_TOKEN = "oauth2_access_token"
 
 export const OAUTH2_PATH_FROM = "oauth2_path_from"
+
+export  const LOGIN_PHONE = "login_phone"
+
+export  const LOGIN_ACCOUNT = 'login_account'
+
+export  const LOGIN_PASSWORD = 'login_password'

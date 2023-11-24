@@ -10,8 +10,8 @@ function ChangePassword() {
         <Banner />
       </div>
       <div
-        className="h-full justify-center  relative min-w-[37.5rem]"
-        style={{ width: "35%", boxShadow: "-10px 0px 30px -10px rgba(0, 0, 0, 0.3)" }}>
+        className="h-full justify-center  relative min-w-[37.5rem] phone:w-full"
+        style={{ boxShadow: "-10px 0px 30px -10px rgba(0, 0, 0, 0.3)" }}>
         <PassWord></PassWord>
       </div>
     </main>

@@ -46,7 +46,7 @@ const VerifyCodeInput = React.forwardRef(
     }
     return (
       <>
-        <div className=" flex justify-evenly mb-4">
+        <div className="flex justify-evenly mb-4">
           <TextField
             {...field}
             label="验证码"
@@ -59,7 +59,7 @@ const VerifyCodeInput = React.forwardRef(
           />
           <Button
             variant="outlined"
-            className="h-14 w-1/4 ml-4"
+            className="w-2/5 ml-4"
             onClick={handleClick}
             disabled={count !== SECONDS}>
             {count === SECONDS ? "发送验证码" : count}

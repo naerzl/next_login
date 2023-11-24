@@ -1,10 +1,11 @@
 import { reqGetPhoneCode } from "@/app/login/api"
 import useCountDown from "@/hooks/useCountDown"
 import useDebounce from "@/hooks/useDebounce"
-import { REGEXP_PHONE, STATUS_SUCCESS } from "@/libs/const"
+import { REGEXP_PHONE } from "@/libs/const"
 import { Button, TextField } from "@mui/material"
 import React from "react"
 import useSWRMutation from "swr/mutation"
+import * as process from "process"
 import message from "antd-message-react"
 
 const SECONDS = 60
@@ -17,7 +18,7 @@ const VerifyCodeInput = React.forwardRef(
     const { field, getValues, errors, trigger } = props
 
     // 处理发送验证码时间
-    const { run: handleClick } = useDebounce(() => {
+    const { run: handleClick } = useDebounce(async () => {
       // 校验手机号
       trigger("phone")
       // 校验手机号是否合法
@@ -25,7 +26,10 @@ const VerifyCodeInput = React.forwardRef(
         // 开始计时
         start()
         // 调佣api
-        apiTrigger({ phone: getValues("phone") })
+        const res = await apiTrigger({ phone: getValues("phone") })
+        if (process.env.NEXT_PUBLIC_SHOW_CODE == "1" && res) {
+          message.success(`短信验证码为：${res.data.code}`)
+        }
       }
     })
 
@@ -33,7 +37,7 @@ const VerifyCodeInput = React.forwardRef(
       trigger(field.name)
     }
     return (
-      <div className="h-14 flex justify-evenly mb-6">
+      <div className="flex justify-evenly">
         <TextField
           {...field}
           label="验证码"
@@ -46,7 +50,7 @@ const VerifyCodeInput = React.forwardRef(
         />
         <Button
           variant="outlined"
-          className="h-full w-1/4 ml-4"
+          className="w-2/5 ml-4 h-14"
           onClick={handleClick}
           disabled={count !== SECONDS}>
           {count === SECONDS ? "发送验证码" : count}

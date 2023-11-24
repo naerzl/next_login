@@ -25,14 +25,14 @@ export default function Home() {
   }, [oauthToken, action, objId])
 
   if (!getCookie(ACCESSTOKEN) && !searchParams.get("oauth_token")) {
-    // router.push(CLIENT_URL)
-    location.href = CLIENT_URL
+    router.push(CLIENT_URL)
+    // location.href = CLIENT_URL
   }
 
   // 判断如果有token退回上一级路由
   if (getCookie(ACCESSTOKEN)) {
-    // router.push(CLIENT_URL)
-    location.href = CLIENT_URL
+    router.push(CLIENT_URL)
+    // location.href = CLIENT_URL
     return <></>
   }
   return (

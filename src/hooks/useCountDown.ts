@@ -11,6 +11,7 @@ export default function useCountDown(initCount = 10, callBack = () => {}) {
       setCount((count) => count - 1)
     }, 1000)
   }
+
   useEffect(() => {
     // 清除副作用
     return () => {

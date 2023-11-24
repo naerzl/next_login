@@ -4,13 +4,18 @@ import useDebounce from "@/hooks/useDebounce"
 import { ReqChangePasswordParams } from "@/types/api"
 import PasswordInput from "@/components/PasswordInput"
 import { Button } from "@mui/material"
-import {useRouter, useSearchParams} from "next/navigation"
-import {getCookie, setCookie} from "@/libs/cookies"
-import {OAUTH2_ACCESS_TOKEN, OAUTH2_PATH_FROM, REGEXP_PASSWORD, STATUS_SUCCESS} from "@/libs/const"
+import { useRouter, useSearchParams } from "next/navigation"
+import { getCookie, setCookie } from "@/libs/cookies"
+import {
+  OAUTH2_ACCESS_TOKEN,
+  OAUTH2_PATH_FROM,
+  REGEXP_PASSWORD,
+  STATUS_SUCCESS,
+} from "@/libs/const"
 import useSWRMutaion from "swr/mutation"
 import { ErrorMessage } from "@hookform/error-message"
 import message from "antd-message-react"
-import React from "react";
+import React from "react"
 
 export default function UsePassword() {
   const {
@@ -31,13 +36,13 @@ export default function UsePassword() {
   )
   const router = useRouter()
 
-    const searchParams = useSearchParams()
+  const searchParams = useSearchParams()
 
-    React.useEffect(()=>{
-        if(searchParams.get('t')){
-         setCookie(OAUTH2_ACCESS_TOKEN,searchParams.get('t') as string)
-        }
-    },[searchParams])
+  React.useEffect(() => {
+    if (searchParams.get("t")) {
+      setCookie(OAUTH2_ACCESS_TOKEN, searchParams.get("t") as string)
+    }
+  }, [searchParams])
 
   // 加上防抖的提交事件
   const { run: onSubmit }: { run: SubmitHandler<ReqChangePasswordParams> } = useDebounce(
@@ -53,7 +58,7 @@ export default function UsePassword() {
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="relative pb-3.5">
+        <div className="relative pb-3.5 phone:mb-4">
           <Controller
             name="password"
             control={control}
@@ -75,7 +80,9 @@ export default function UsePassword() {
                     errors={errors}
                     name="password"
                     render={({ message }) => (
-                      <p className="text-railway_error text-sm absolute -bottom-5">{message}</p>
+                      <p className="text-railway_error text-sm absolute -bottom-5 phone:-bottom-6">
+                        {message}
+                      </p>
                     )}
                   />
                 )}
@@ -83,10 +90,10 @@ export default function UsePassword() {
             )}
           />
         </div>
-        <div className="relative pb-3.5">
+        <div className="relative pb-3.5 phone:mb-4">
           <Controller
             rules={{
-              required: true,
+              required: "请输入密码",
               validate: (value, formValues: ReqChangePasswordParams) => {
                 return value === formValues.password || "两次密码输入不一致"
               },
@@ -104,7 +111,9 @@ export default function UsePassword() {
                     errors={errors}
                     name="checked_password"
                     render={({ message }) => (
-                      <p className="text-railway_error text-sm absolute -bottom-5">{message}</p>
+                      <p className="text-railway_error text-sm absolute -bottom-5 phone:-bottom-6">
+                        {message}
+                      </p>
                     )}
                   />
                 )}
@@ -112,7 +121,11 @@ export default function UsePassword() {
             )}
           />
         </div>
-        <Button variant="contained" type="submit" className="bg-railway_blue h-10" fullWidth>
+        <Button
+          variant="contained"
+          type="submit"
+          className="bg-railway_blue h-10 phone:h-14"
+          fullWidth>
           修改密码
         </Button>
       </form>

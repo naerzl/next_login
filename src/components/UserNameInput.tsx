@@ -14,10 +14,11 @@ const UserNameInput = React.forwardRef(
           ref={ref}
           id="outlined-basic"
           fullWidth
-          autoComplete="off"
+          // autoComplete="off"
+          className="phone:text-4xl"
           label="账号"
           variant="outlined"
-          error={errors ? true : false}
+          error={!!errors}
           onBlur={handleBlur}
         />
         {ErrorMessage && ErrorMessage()}

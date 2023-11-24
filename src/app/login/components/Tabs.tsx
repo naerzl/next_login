@@ -4,13 +4,16 @@ import Tab from "@mui/material/Tab"
 import Box from "@mui/material/Box"
 import UsePassword from "./usePassword"
 import UsePhoneCode from "./usePhoneCode"
+
 interface TabPanelProps {
   children?: React.ReactNode
   index: number
   value: number
 }
+
 const TABS_WITH_PASSWORD = 0
 const TABS_WITH_PHONECODE = 1
+
 function CustomTabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props
 
@@ -37,15 +40,19 @@ export default function BasicTabs() {
   const [value, setValue] = React.useState(0)
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue)
+    try {
+      setValue(newValue)
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   return (
     <Box sx={{ width: "100%" }}>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="密码登录" {...a11yProps(TABS_WITH_PASSWORD)} />
-          <Tab label="短信登录" {...a11yProps(TABS_WITH_PHONECODE)} />
+          <Tab label="密码登录" {...a11yProps(TABS_WITH_PASSWORD)} className="phone:text-2xl" />
+          <Tab label="短信登录" {...a11yProps(TABS_WITH_PHONECODE)} className="phone:text-2xl" />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={TABS_WITH_PASSWORD}>

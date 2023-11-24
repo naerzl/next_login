@@ -17,17 +17,6 @@ function PassWord() {
       </h3>
       <div className="my-10 text-center text-lg text-railway_gray">请修改你的密码</div>
       <UsePassword></UsePassword>
-      <div className="border-t-2 my-10 relative">
-        <span className="text-center text-gray-400 text-sm bg-white w-8 h-6 absolute inset-x-0 -top-3 left-1/2 -translate-x-2/4">
-          OR
-        </span>
-      </div>
-      <div className="flex justify-center gap-3">
-        <img src={facebook} className="cursor-pointer" alt="" width={80} />
-        <img src={twitter} className="cursor-pointer" alt="" width={80} />
-        <img src={google_plus} className="cursor-pointer" alt="" width={80} />
-        <img src={pinterest} className="cursor-pointer" alt="" width={80} />
-      </div>
     </div>
   )
 }
