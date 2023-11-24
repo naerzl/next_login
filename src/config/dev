@@ -1,0 +1,40 @@
+# OAuth1 初始化请求地址
+NEXT_PUBLIC_OAUTH_INITIATE="http://192.168.2.33:8899/xapi/OAuth/initiate"
+
+# OAuth1 初始获取auth_token 请求地址
+NEXT_PUBLIC_OAUTH_AUTHORIZE="http://192.168.2.33:8899/xapi/OAuth/authorize"
+
+# OAuth1 初始获取access——token 请求地址
+NEXT_PUBLIC_OAUTH_TOKEN="http://192.168.2.33:8899/xapi/OAuth/token"
+
+# 初始化oauth1 回调的路径
+NEXT_PUBLIC_OAUTH_PATH="/auth"
+
+# 模拟oauth1表单参数
+NEXT_PUBLIC_OAUTH_DESCRIPTION="工程数字化管理系统APP"
+
+# oauth1 消费者key
+NEXT_PUBLIC_CONSUMER_KEY="ec84c66bdbce457297a2c625edda76be"
+
+# oauth1 消费者秘钥
+NEXT_PUBLIC_CONSUMER_SECRET="lDzaJHqcrCtElMDk"
+
+# oauth1 签名方法
+NEXT_PUBLIC_SIGNATURE_METHOD="HMAC-SHA1"
+
+# 项目运行IP地址
+NEXT_PUBLIC_OAUTH_ORIGIN="http://192.168.2.17:3000"
+
+# XAPI 请求地址
+NEXT_PUBLIC_XAPI_URL="http://192.168.2.33:8899/xapi"
+
+# STATEMENTS 请求地址
+NEXT_PUBLIC_OAUTH_STATEMENTS="http://192.168.2.33:8899/xapi/statements"
+
+# 客户端地址
+NEXT_PUBLIC_CLiENT_URL="http://192.168.2.17:3001"
+
+# 普通请求地址前缀
+NEXT_PUBLIC_API_BASE_URL="http://192.168.2.33:8001/v1"
+
+NEXT_PUBLIC_SHOW_CODE = '1'
