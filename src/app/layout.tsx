@@ -16,10 +16,10 @@ function setRem() {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   React.useEffect(() => {
-    setRem()
-    window.onresize = function () {
-      setRem()
-    }
+    // setRem()
+    // window.onresize = function () {
+    //   setRem()
+    // }
   }, [])
   return (
     <html lang="zh_CN" id="_next">
