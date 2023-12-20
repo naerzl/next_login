@@ -7,9 +7,9 @@ export const metadata = {
 
 function PrivacyPolicy() {
   return (
-    <main className="pt-10 px-96 agreement privacy">
-      <h2 className="font-bold text-3xl text-center mb-3">隐私政策</h2>
-      <div className="px-10 rounded-xl border border-[#ccc]">
+    <main className="pt-10 px-96 phone:px-4 mx-auto agreement privacy">
+      <h2 className="font-bold text-3xl phone:text-lg text-center mb-3">隐私政策</h2>
+      <div className="px-10 rounded-xl border border-[#ccc] phone:text-xs phone:px-4 mb-3">
         <p>
           <strong>引言</strong>
         </p>
@@ -197,6 +197,14 @@ function PrivacyPolicy() {
         </p>
         <p>
           我们可能适时修订本《隐私政策》的条款，该等修订构成本《隐私政策》的一部分。如该等修订造成您在本《隐私政策》下权利的实质减少，我们将在修订生效前通过在主页上显著位置提示或向您发送电子邮件或以其他方式通知您。在该种情况下，若您继续使用我们的服务，即表示同意受经修订的本《隐私政策》的约束。
+        </p>
+        <p>
+          <strong>1.1.2 我们在您使用服务过程中收集的信息 • 与您的设备或SIM卡相关的信息： </strong>
+        </p>
+        <p>
+          例如IMEI/OAID、GAID编号、IMSI编号、MAC地址、序列号、系统版本及类型、ROM版本、Android版本、Android
+          ID、Space
+          ID、SIM卡运营商和归属地、屏幕显示信息、设备输入信息、设备激活时间、设备制造商信息和型号名称、网络运营商、连接类型、硬件基础配置信息、销售渠道及使用相关信息（例如CPU、内存、电量使用情况、设备分辨率、设备温度、相机镜头型号、亮屏次数和解锁次数）
         </p>
       </div>
     </main>

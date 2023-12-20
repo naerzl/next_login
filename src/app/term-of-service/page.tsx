@@ -7,13 +7,15 @@ export const metadata = {
 
 function TermOfService() {
   return (
-    <main className="pt-10 px-96 agreement">
-      <h2 className="font-bold text-3xl text-center mb-3">服务条款</h2>
-      <div className="px-10 rounded-xl border border-[#ccc]">
-        <div className="font-bold text-lg mt-4">
+    <main className="pt-10 px-96 phone:px-4 mx-auto agreement">
+      <h2 className="font-bold text-3xl text-center phone:text-lg mb-3">服务条款</h2>
+      <div
+        className="px-10 rounded-xl border border-[#ccc] phone:text-sm phone:px-3
+      ">
+        <div className="font-bold text-lg phone:text-base mt-4">
           若您申请工程数字化管理平台（以下简称“平台”）并使用相应服务，您必须首先同意此协议。
         </div>
-        <h3 className="font-bold text-xl mt-6">一、接受</h3>
+        <h3 className="font-bold text-xl phone:text-base mt-6">一、接受</h3>
         <p>(1) 当您使用服务时，表示您已知晓并且同意此《服务条款》；</p>
         <p>
           (2)此协议在必要时将进行修改更新，网站发布后立即生效；属于政策性调整的，在30天内将通过电子邮件的方式通知帐户；
@@ -23,7 +25,7 @@ function TermOfService() {
         </p>
         <p>(4) 除非特别声明，某些增强服务的新功能将适用此协议；</p>
         <p>(5) 此协议只有平台书面授权人员才可以修改。</p>
-        <h3 className="font-bold text-xl mt-6">二、使用本协议</h3>
+        <h3 className="font-bold text-xl phone:text-base mt-6">二、使用本协议</h3>
         <p>(1)此协议所述服务仅在平台及对应的APP内有效。平台是指 https://zctc.cc及其对应的APP;</p>
         <p>(2)以下行为是我们坚决反对和禁止的:</p>
         <p>
@@ -36,7 +38,7 @@ function TermOfService() {
           如果您有上述行为，我们将视该行为引起的后果的严重性追究责任，并保留通过法律途径追偿合理损失的权利。
         </p>
         <p>(4)平台有权根据实际情况自主调整服务内容。</p>
-        <h3 className="font-bold text-xl mt-6">三、帐户</h3>
+        <h3 className="font-bold text-xl phone:text-base mt-6">三、帐户</h3>
         <p>(1) 平台的帐户应是能够承担相应法律责任的企业和个人;</p>
         <p>
           (2)平台要求帐户在使用服务时必须遵守相关法律法规。对帐户使用服务所产生的与其他公司或者个人的纠纷不负法律责任;
@@ -45,13 +47,13 @@ function TermOfService() {
         <p>
           (4)对于体验账号，用户如注册后在平台规定的天数内未完成转正式账号的手续，也未通知平台延长体验时间，平台有权利清除帐号及其相关数据。您需自行承担数据被销毁后所引发的一切后果。
         </p>
-        <h3 className="font-bold text-xl mt-6">四、隐私保护</h3>
+        <h3 className="font-bold text-xl phone:text-base mt-6">四、隐私保护</h3>
         <p>平台为用户提供了完备的隐私保护机制，具体请参阅《隐私声明》中的相关约定。</p>
-        <h3 className="font-bold text-xl mt-6">五、服务期限</h3>
+        <h3 className="font-bold text-xl phone:text-base mt-6">五、服务期限</h3>
         <p>
           平台有权判定帐户的行为是否符合本《服务协议》的要求，如果帐户违背了该《服务协议》的规定，平台有权决定停止该帐户的使用资格或者采取其他平台认为合适的措施。
         </p>
-        <h3 className="font-bold text-xl mt-6">六、服务终止</h3>
+        <h3 className="font-bold text-xl phone:text-base mt-6">六、服务终止</h3>
         <p>有下列情形之一的，平台有权随时暂停、终止、取消或拒绝帐户服务</p>
         <p>(1)帐户违反了此协议或已在约定范围内的任一条款;</p>
         <p>(2) 根据此协议相关说明而终止服务;</p>
@@ -63,7 +65,7 @@ function TermOfService() {
         <p>(1) 有关宗教、种族或性别的贬损言辞;</p>
         <p>(2) 侵犯任何第三方著作权、专利、商标、商业秘密或其它专有权利、发表权或隐私权的信息;</p>
         <p>(3) 其它任何违反互联网相关法律法规的信息。</p>
-        <h3 className="font-bold text-xl mt-6">七、账号安全声明</h3>
+        <h3 className="font-bold text-xl phone:text-base mt-6">七、账号安全声明</h3>
         <p>
           (1)平台采取了安全策略。如果账户触发了平台的安全机制。将被暂时或永久禁止再次访问凭条。同时，其他帐户在平台上发布的信息将暂时或永久不能被该帐户查看;
         </p>
@@ -81,7 +83,7 @@ function TermOfService() {
         <p>
           (3)对于使用第三方账户(微信)登陆的用户，第三方账号安全与否与平台无关，对于因第三方账号出现的安全事故，平台不承担任何法律责任。
         </p>
-        <h3 className="font-bold text-xl mt-6">八、帐户的权利和义务</h3>
+        <h3 className="font-bold text-xl phone:text-base mt-6">八、帐户的权利和义务</h3>
         <p>(1)平台帐户服务生效后，帐户就可享受相应服务内容;</p>
         <p>
           (2)在使用平台提供的相应服务时必须保证遵守当地及中国有关法律法规的规定;不得利用该网站进行任何非法活动;遵守所有与使用该网站有关的协议、规定、程序和惯例;
@@ -93,7 +95,7 @@ function TermOfService() {
         <p>
           (5)对由于帐户在使用平台服务的过程中，违反本协议或通过提及而纳入本协议的条款和规则或帐户违反任何法律或第三方的权利而产生或引起的每一种类似性质的任何索赔、要求、诉讼、损失和损害(实际、特别及后果性的》而言，无论是已知或未知的，包括合理的律师费，帐户同意就此对平台权利人、员工、所有者进行补偿并使其免受损害。
         </p>
-        <h3 className="font-bold text-xl mt-6">九、平台的权利和义务</h3>
+        <h3 className="font-bold text-xl phone:text-base mt-6">九、平台的权利和义务</h3>
         <p>(1)为用户提供平台承诺的服务;</p>
         <p>(2)平台服务的所有权和经营权未经书面许可仅属于平台的权利人;</p>
         <p>
@@ -103,13 +105,13 @@ function TermOfService() {
           (4)平台要求使用者必须遵守国家相关的法律法规，平台有权决定删除帐户中关于任何违反中国法律法规的内容，或其他我们认为不可接受的内容。情节严重者，我们有权取消其帐户资格;
         </p>
         <p>(5)我们尽最大努力保证用户数据的安全与完整，并承诺提供短时间内的数据备份及恢复服务。</p>
-        <h3 className="font-bold text-xl mt-6">十、最终解释权</h3>
+        <h3 className="font-bold text-xl phone:text-base mt-6">十、最终解释权</h3>
         <p>我们权利人对筑宬软件网站保有任何活动、限制等的最终解释权</p>
-        <h3 className="font-bold text-xl mt-6">十一、版权声明</h3>
+        <h3 className="font-bold text-xl phone:text-base mt-6">十一、版权声明</h3>
         <p>
           以任何方式使用平台提供的服务，包括但不限于基于平台搭建的数据管理应用等服务，所涉及的版权信息的解释权归平台所有。
         </p>
-        <h3 className="font-bold text-xl mt-6">十二、不可抗力及责任免除</h3>
+        <h3 className="font-bold text-xl phone:text-base mt-6">十二、不可抗力及责任免除</h3>
         <p>
           您理解并同意，在使用本服务的过程中，可能会遇到不可抗力等风险因素，使本服务发生中断。不可抗力是指不能预见、不能克服并不能避免且对一方或双方造成重大影响的客观事件，包括但不限于自然灾害如洪水、地震、瘟疫流行和风暴等以及社会事件如战争、动乱、政府行为等。出现上述情况时，平台将努力在第一时间与相关单位配合，及时进行修复，但是由此给您造成的损失，平台在法律允许的范围内免责。
         </p>
@@ -131,14 +133,14 @@ function TermOfService() {
         <p>
           您理解并同意，本服务并非为某些特定目的而设计，包括但不限于核设施、军事用途、医疗设施、交通通讯等重要领域。如果因为软件或服务的原因导致上述操作失败而带来的人员伤亡、财产损失和环境破坏等，平台不承担法律责任。
         </p>
-        <h3 className="font-bold text-xl mt-6">十三、法律适用</h3>
+        <h3 className="font-bold text-xl phone:text-base mt-6">十三、法律适用</h3>
         <p>
           (1)平台与帐户中任何一方未履行协议所规定的责任均视为违约，按《合同法》及其相关司法解释规定处理;如双方在此协议范围内发生纠纷，应尽量友好协商解决。此协议适用中华人民共和国法律(不包括冲突法》。
         </p>
         <p>
           (2)如协商不成的，您同意将纠纷或争议提交乙方所在地有管辖权的人民法院管辖。如与此协议有关的某一特定事项缺乏明确法律规定，则应参照通用的国际商业惯例和行业惯例。本协议条款无论因何种原因部分无效或不可执行，其余条款仍有效，对双方具有约束力。
         </p>
-        <h3 className="font-bold text-xl mt-6">
+        <h3 className="font-bold text-xl phone:text-base mt-6">
           十五、如果您对本协议或本服务有意见或建议，欢迎您与筑宬软件联系，联系方式为：邮箱。
         </h3>
       </div>
